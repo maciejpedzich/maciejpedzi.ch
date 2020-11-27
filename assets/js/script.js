@@ -21,7 +21,7 @@ window.addEventListener('keypress', (evt) => {
     switch (command) {
       default:
         output.style.color = 'red';
-        output.textContent = `ERROR: Unkown command '${command}'`;
+        output.textContent = `ERROR: Unknown command '${command}'`;
       break;
       case 'about':
         const age = today.getFullYear() - new Date('2005-05-08').getFullYear()
