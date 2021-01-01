@@ -5,7 +5,7 @@ const currentYear = today.getFullYear();
 const cmdHistory = [];
 
 let cmdIndex = 0;
-document.querySelector('#currentYear').textContent = currentYear;
+document.querySelector('#current-year').textContent = currentYear;
 input.focus();
 
 input.addEventListener('blur', (evt) => input.focus());
@@ -25,13 +25,8 @@ window.addEventListener('keypress', (evt) => {
 				output.textContent = `ERROR: Unknown command '${command}'`;
 				break;
 			case 'about':
-				const daysOfThisYear =
-					currentYear % 400 === 0 ||
-					(currentYear % 100 !== 0 && currentYear % 4 === 0)
-						? 366
-						: 365;
 				const timeDiff = today.getTime() - new Date('2005-05-08').getTime();
-				const age = Math.floor(timeDiff / (3600 * 24 * daysOfThisYear * 1000));
+				const age = Math.floor(timeDiff / (3600 * 24 * 365 * 1000));
 
 				output.textContent = `Maciej Pedzich is a ${age}-year-old high school student from Kielce, Poland.
         He makes web applications using Vue.js, Node.js, Express and MongoDB/PostgreSQL, but he likes experimenting with other solutions too.
@@ -48,7 +43,7 @@ window.addEventListener('keypress', (evt) => {
 			case 'help':
 				output.innerHTML = `<p>about - shows everything you need to know about Maciej</p>
         <p>contact - displays contact information</p>
-        <p>github - shows Maciej's Github profile</p>
+        <p>github - opens Maciej's Github profile</p>
         <p>help - displays a list of available commands</p>
         <p>skills - presents a set of current skills</p>
         <p>Use up and down arrows to retype commands</p>`;

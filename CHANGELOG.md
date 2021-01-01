@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.2
+
+- Even more minor changes
+
 ## 2.1.1
 
 - Minor punctuation and wording changes
