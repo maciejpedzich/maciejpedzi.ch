@@ -33,6 +33,9 @@ window.addEventListener('keypress', (evt) => {
         He believes that by being creative and cooperating with others, you can achieve success.
         When not coding, he is probably watching an F1 race, or playing retro video games.`;
 				break;
+			case 'cls':
+				cmdHistoryElement.textContent = '';
+				break;
 			case 'contact':
 				output.innerHTML = `Email address:
         <a href="mailto:contact@maciejpedzi.ch">contact@maciejpedzi.ch</a>`;
@@ -42,18 +45,19 @@ window.addEventListener('keypress', (evt) => {
 				break;
 			case 'help':
 				output.innerHTML = `<p>about - shows everything you need to know about Maciej</p>
-        <p>contact - displays contact information</p>
+				<p>cls - clears screen</p>
+				<p>contact - displays contact information</p>
         <p>github - opens Maciej's Github profile</p>
         <p>help - displays a list of available commands</p>
         <p>skills - presents a set of current skills</p>
-        <p>Use up and down arrows to retype commands</p>`;
+        <p>If on desktop/laptop, use up and down arrows to retype commands</p>`;
 				break;
 			case 'skills':
 				output.innerHTML = `<p>Frontend: HTML, CSS, JavaScript, TypeScript, Vue.js</p>
         <p>Backend: JavaScript, TypeScript, Node.js, Express</p>
         <p>Database: MongoDB, PostgreSQL</p>
-        <p>Tooling: Git, Visual Studio Code, Linux Bash, Windows PowerShell</p>
-        <p>Hosting/Deployment: Netlify, Amazon Web Services, MongoDB Atlas</p>`;
+        <p>Tooling: Git, Visual Studio Code, Bash, Windows PowerShell, Postman</p>
+        <p>Hosting/Deployment: Netlify, Heroku, Amazon Web Services, MongoDB Atlas</p>`;
 				break;
 		}
 

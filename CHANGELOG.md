@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.0
+
+- Change copyright header
+- Add "cls" command, that clears screen (except for header)
+- Apply `overflow: hidden` rule only on desktops, i.e. screen widths >= 1200 pixels
+
 ## 2.1.2
 
 - Even more minor changes
