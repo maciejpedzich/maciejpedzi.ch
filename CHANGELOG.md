@@ -4,7 +4,7 @@
 
 - Change copyright header
 - Add "cls" command, that clears screen (except for header)
-- Apply `overflow: hidden` rule only on desktops, i.e. screen widths >= 1200 pixels
+- Apply `overflow: hidden` rule only on desktops, i.e. screen width >= 1200 pixels
 
 ## 2.1.2
 
