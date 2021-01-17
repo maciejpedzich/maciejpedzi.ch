@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.3.0
+
+- Add special _'help'_ command for dummies
+- Add `::selection` styling rules
+
 ## 2.2.0
 
 - Change copyright header

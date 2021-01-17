@@ -1,74 +1,84 @@
 @font-face {
-	font-family: 'VGA 437';
-	src: url('../fonts/vga437.ttf');
+  font-family: 'VGA 437';
+  src: url('../fonts/vga437.ttf');
 }
 
 @media (prefers-color-scheme: dark) {
-	body,
-	#cmd {
-		color: whitesmoke;
-	}
+  body,
+  #cmd {
+    color: whitesmoke;
+  }
 
-	body {
-		background-color: black;
-	}
+  body {
+    background-color: black;
+  }
+
+  ::selection {
+    background-color: whitesmoke;
+    color: black;
+  }
 }
 
 @media (prefers-color-scheme: light) {
-	body,
-	#cmd {
-		color: black;
-	}
+  body,
+  #cmd {
+    color: black;
+  }
 
-	body {
-		background-color: whitesmoke;
-	}
+  body {
+    background-color: whitesmoke;
+  }
+
+  ::selection {
+    background-color: black;
+    color: whitesmoke;
+  }
 }
 
 @media (min-width: 1200px) {
-	body {
-		overflow: hidden;
-	}
+  body {
+    overflow: hidden;
+  }
 }
 
 body,
 #cmd {
-	font-family: 'VGA 437';
-	font-size: 1.5rem;
+  font-family: 'VGA 437';
+  font-size: 1.5rem;
 }
 
 #cmd-history > p {
-	line-height: 2rem;
+  line-height: 2rem;
 }
 
 #header > p {
-	margin: 0.5rem auto;
+  margin: 0.5rem auto;
 }
 
 #header > #hint,
 #input-container,
 #cmd-history {
-	margin-top: 1.8rem;
+  margin-top: 1.8rem;
 }
 
 #input-container {
-	display: flex;
+  display: flex;
 }
 
 #bracket {
-	padding-right: 0.75rem;
-	text-align: center;
-	vertical-align: middle;
-	line-height: 1.7rem;
+  padding-right: 0.75rem;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 1.7rem;
 }
 
 #cmd {
-	border: none;
-	background: none;
-	flex: 1;
+  border: none;
+  background: none;
+  flex: 1;
 }
 
 #cmd:active,
 #cmd:focus {
-	outline: none;
+  outline: none;
 }
