@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.4.0
+
+- Persist input history (up to 10 entries) using `localStorage`
+- Add `bgcolor` and `color` commands for setting background color and text color respectively
+- Add _Looking to learn_ in skills section
+
 ## 2.3.0
 
 - Add special _'help'_ command for dummies
