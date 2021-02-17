@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.1
+
+- Set `inputHistory` in localStorage to a stringified array, rather tan a string of comma-separated values
+
 ## 2.4.0
 
 - Persist input history (up to 10 entries) using `localStorage`

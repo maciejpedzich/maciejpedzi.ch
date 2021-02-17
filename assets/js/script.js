@@ -3,7 +3,7 @@ const cmdHistoryElement = document.querySelector('#cmd-history');
 const today = new Date();
 const currentYear = today.getFullYear();
 const inputHistory = localStorage.getItem('inputHistory')
-  ? localStorage.getItem('inputHistory').split(',')
+  ? JSON.parse(localStorage.getItem('inputHistory'))
   : [];
 let cmdIndex = 0;
 
@@ -17,9 +17,9 @@ window.addEventListener('keypress', (evt) => {
 
   if (evt.key === 'Enter' && command.length > 0) {
     const args = split.slice(1);
-
     const cmdToSave = document.createElement('p');
     const output = document.createElement('p');
+
     cmdToSave.textContent = `> ${inputText}`;
     cmdHistoryElement.append(cmdToSave);
 
@@ -37,14 +37,14 @@ window.addEventListener('keypress', (evt) => {
         When not coding, he is probably watching an F1 race, or playing retro video games.`;
         break;
       case 'bgcolor':
-        const bgcolor = args[0];
+        const [bgcolor] = args;
         document.body.style.backgroundColor = bgcolor;
         break;
       case 'cls':
         cmdHistoryElement.textContent = '';
         break;
       case 'color':
-        const color = args[0];
+        const [color] = args;
         document.body.style.color = color;
         input.style.color = color;
         break;
@@ -53,7 +53,7 @@ window.addEventListener('keypress', (evt) => {
         <a href="mailto:contact@maciejpedzi.ch">contact@maciejpedzi.ch</a>`;
         break;
       case 'github':
-        output.innerHTML = `If new tab didn't show up, go <a href="https://github.com/maciejpedzich">here</a>`;
+        output.innerHTML = `If a new tab didn't show up, go <a href="https://github.com/maciejpedzich">here</a>`;
         window.open('https://github.com/maciejpedzich');
         break;
       case "'help'":
@@ -81,7 +81,10 @@ window.addEventListener('keypress', (evt) => {
     }
 
     inputHistory.unshift(inputText);
-    localStorage.setItem('inputHistory', inputHistory.slice(0, 10).join());
+    localStorage.setItem(
+      'inputHistory',
+      JSON.stringify(inputHistory.slice(0, 10))
+    );
 
     cmdHistoryElement.append(output);
     input.value = '';
