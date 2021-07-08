@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.0
+
+- coming July 25th 2021
+
 ## 2.4.1
 
 - Set `inputHistory` in localStorage to a stringified array, rather tan a string of comma-separated values

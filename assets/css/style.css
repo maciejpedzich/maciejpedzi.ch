@@ -1,84 +1,39 @@
-@font-face {
-  font-family: 'VGA 437';
-  src: url('../fonts/vga437.ttf');
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
 }
 
-@media (prefers-color-scheme: dark) {
-  body,
-  #cmd {
-    color: whitesmoke;
-  }
-
-  body {
-    background-color: black;
-  }
-
-  ::selection {
-    background-color: whitesmoke;
-    color: black;
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  body,
-  #cmd {
-    color: black;
-  }
-
-  body {
-    background-color: whitesmoke;
-  }
-
-  ::selection {
-    background-color: black;
-    color: whitesmoke;
-  }
-}
-
-@media (min-width: 1200px) {
-  body {
-    overflow: hidden;
-  }
-}
-
-body,
-#cmd {
-  font-family: 'VGA 437';
-  font-size: 1.5rem;
-}
-
-#cmd-history > p {
-  line-height: 2rem;
-}
-
-#header > p {
-  margin: 0.5rem auto;
-}
-
-#header > #hint,
-#input-container,
-#cmd-history {
-  margin-top: 1.8rem;
-}
-
-#input-container {
+body {
   display: flex;
+  flex-direction: column;
 }
 
-#bracket {
-  padding-right: 0.75rem;
-  text-align: center;
-  vertical-align: middle;
-  line-height: 1.7rem;
+.frame {
+  flex-grow: 1;
+  background-color: #00309c;
 }
 
-#cmd {
-  border: none;
-  background: none;
-  flex: 1;
+#welcome-container {
+  flex-grow: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, Helvetica, sans-serif;
+  background: radial-gradient(
+    circle at left top,
+    rgb(249, 249, 249) 0%,
+    #5a7edc 25%,
+    #5a7edc 40%,
+    #5a7edc 100%
+  );
 }
 
-#cmd:active,
-#cmd:focus {
-  outline: none;
+#welcome-text {
+  color: #fff;
+  text-shadow: 3px 4px 0px rgb(49, 81, 181);
+  font-size: 5rem;
+  font-weight: bold;
 }
