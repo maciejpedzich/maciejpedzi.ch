@@ -1,25 +1,49 @@
 ---
 import HeaderLink from './HeaderLink.astro';
-import { SITE_TITLE } from '../consts';
 ---
 
 <header>
-	<h2>
-		{SITE_TITLE}
-	</h2>
-	<nav>
-		<HeaderLink href="/">Home</HeaderLink>
-		<HeaderLink href="/blog">Blog</HeaderLink>
-		<HeaderLink href="/about">About</HeaderLink>
-		<HeaderLink href="https://twitter.com/astrodotbuild" target="_blank">Twitter</HeaderLink>
-		<HeaderLink href="https://github.com/withastro/astro" target="_blank">GitHub</HeaderLink>
-	</nav>
+  <span class="logo cmr2-text">
+    <span>Maciej</span>
+    <span>Pędzich</span>
+  </span>
+  <nav class="cmr2-text" aria-label="Site navigation">
+    <HeaderLink href="/">Home</HeaderLink>
+    <HeaderLink href="/blog">Blog</HeaderLink>
+    <HeaderLink href="/projects">Projects</HeaderLink>
+    <HeaderLink href="/resume.pdf">Resume</HeaderLink>
+    <HeaderLink href="mailto:contact@maciejpedzi.ch">Email me</HeaderLink>
+    <HeaderLink href="/links">Links</HeaderLink>
+  </nav>
 </header>
+
 <style>
-	header {
-		margin: 0em 0 2em;
-	}
-	h2 {
-		margin: 0.5em 0;
-	}
+  @media only screen and (max-width: 625px) {
+    nav.cmr2-text {
+      justify-content: left;
+    }
+  }
+
+  nav {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+
+  nav > a {
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+  }
+
+  header {
+    margin: 0em 0 2em;
+  }
+
+  h2 {
+    margin: 0.5em 0;
+  }
+
+  .logo {
+    font-size: 2rem;
+    margin: 1.25rem 0;
+  }
 </style>

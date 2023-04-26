@@ -2,49 +2,81 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 ---
 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header title={SITE_TITLE} />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/pages/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to <a href="https://docs.astro.build/"
-					>read the docs
-				</a> or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out <a
-					href="https://github.com/Charca/astro-blog-template"
-					>astro-blog-template
-				</a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header title={SITE_TITLE} />
+    <main>
+      <h2>Welcome to my website!</h2>
+      <p>
+        My name is <strong>Maciej</strong>, but if you don't know how to
+        pronounce it, then you can call me <strong>Mac</strong>. I'm an
+        eighteen-year-old frontend developer from <strong>Poland</strong>.
+        Although I mainly use <strong>Vue</strong> and <strong>Nuxt</strong> for
+        my projects, I'm also familiar with <strong>Alpine</strong> and <strong
+          >Astro</strong
+        >.
+      </p>
+      <h3>My blog</h3>
+      <p>
+        It serves as a means of documenting the development process and inner
+        workings of <a href="/projects">my applications</a>. Check out my latest
+        posts below:
+      </p>
+      <ul>
+        <li>
+          <FormattedDate date={new Date()} />
+          <a href="#">Lorem Ipsum</a>
+        </li>
+        <li>
+          <FormattedDate date={new Date()} />
+          <a href="#">Lorem Ipsum</a>
+        </li>
+        <li>
+          <FormattedDate date={new Date()} />
+          <a href="#">Lorem Ipsum</a>
+        </li>
+      </ul>
+      <h3>Enjoy my work?</h3>
+      <p>
+        If so, then make sure to follow me on <a
+          href="https://github.com/maciejpedzich"
+          target="_blank"
+          rel="noopener noreferrer">GitHub</a
+        >, <a
+          href="https://twitter.com/MaciejPedzich"
+          target="_blank"
+          rel="noopener noreferrer">Twitter</a
+        >, or <a rel="me" href="https://notacult.social/@macindahaus"
+          >Mastodon</a
+        >.
+      </p>
+    </main>
+    <Footer />
+    <style>
+      main {
+        text-align: center;
+      }
+
+      h2,
+      h3 {
+        text-transform: none;
+      }
+
+      h3 {
+        font-size: 1.25rem;
+      }
+
+      p {
+        margin: 0.5rem 0 1rem 0;
+      }
+    </style>
+  </body>
 </html>
