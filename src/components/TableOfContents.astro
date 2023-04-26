@@ -1,0 +1,59 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+type Props = {
+  headings: MarkdownHeading[];
+};
+
+type HeadingWithSubheadings = MarkdownHeading & {
+  subheadings: MarkdownHeading[];
+};
+
+const { headings } = Astro.props;
+
+const grouppedHeadings = headings.reduce((array, heading) => {
+  if (heading.depth === 2) {
+    array.push({ ...heading, subheadings: [] });
+  } else if (heading.depth === 3) {
+    array.at(-1)?.subheadings.push(heading);
+  }
+
+  return array;
+}, [] as HeadingWithSubheadings[]);
+---
+
+<nav id="table-of-contents" aria-label="Table of contents">
+  <h2>Table Of Contents</h2>
+  <ol>
+    {
+      grouppedHeadings.map((h) => (
+        <li>
+          <a href={`#${h.slug}`}>{h.text}</a>
+          {h.subheadings.length > 0 && (
+            <ol>
+              {h.subheadings.map((sub) => (
+                <li>
+                  <a href={`#${sub.slug}`}>{sub.text}</a>
+                </li>
+              ))}
+            </ol>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style>
+  #table-of-contents {
+    margin: 1rem 0 2rem 0;
+    padding: 0.5rem;
+    border: 1px solid #fff;
+    border-left: none;
+    border-right: none;
+  }
+
+  li {
+    text-transform: lowercase;
+  }
+</style>
