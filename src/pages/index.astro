@@ -14,50 +14,55 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
   <body>
     <Header title={SITE_TITLE} />
     <main>
-      <h2>Welcome to my website!</h2>
-      <p>
-        My name is <strong>Maciej</strong>, but if you don't know how to
-        pronounce it, then you can call me <strong>Mac</strong>. I'm an
-        eighteen-year-old frontend developer from <strong>Poland</strong>.
-        Although I mainly use <strong>Vue</strong> and <strong>Nuxt</strong> for
-        my projects, I'm also familiar with <strong>Alpine</strong> and <strong
-          >Astro</strong
-        >.
-      </p>
-      <h3>My blog</h3>
-      <p>
-        It serves as a means of documenting the development process and inner
-        workings of <a href="/projects">my applications</a>. Check out my latest
-        posts below:
-      </p>
-      <ul>
-        <li>
-          <FormattedDate date={new Date()} />
-          <a href="#">Lorem Ipsum</a>
-        </li>
-        <li>
-          <FormattedDate date={new Date()} />
-          <a href="#">Lorem Ipsum</a>
-        </li>
-        <li>
-          <FormattedDate date={new Date()} />
-          <a href="#">Lorem Ipsum</a>
-        </li>
-      </ul>
-      <h3>Enjoy my work?</h3>
-      <p>
-        If so, then make sure to follow me on <a
-          href="https://github.com/maciejpedzich"
-          target="_blank"
-          rel="noopener noreferrer">GitHub</a
-        >, <a
-          href="https://twitter.com/MaciejPedzich"
-          target="_blank"
-          rel="noopener noreferrer">Twitter</a
-        >, or <a rel="me" href="https://notacult.social/@macindahaus"
-          >Mastodon</a
-        >.
-      </p>
+      <section>
+        <h2>Welcome to my website</h2>
+        <p>
+          My name is <strong>Maciej</strong>, but if you're not sure how to
+          pronounce it, then you can call me <strong>Mac</strong>. I'm an
+          eighteen-year-old frontend developer from <strong>Poland</strong>.
+          Although I mainly use <strong>Vue</strong> and <strong>Nuxt</strong> for
+          my projects, I'm also familiar with <strong>Alpine</strong> and <strong
+            >Astro</strong
+          >.
+        </p>
+      </section>
+      <section>
+        <h3>My blog</h3>
+        <p>
+          It serves as a means of documenting the development process and inner
+          workings of <a href="/projects">my applications</a>. Check out the
+          latest posts below:
+        </p>
+        <ul class="post-list">
+          <li>
+            <a href="#">This link leads nowhere</a>
+          </li>
+          <li>
+            <a href="#"
+              >And so does this one. But why is that, some of you may ask</a
+            >
+          </li>
+          <li>
+            <a href="#">The answer is simple. They're placeholders</a>
+          </li>
+        </ul>
+      </section>
+      <section>
+        <h3>Enjoy my work?</h3>
+        <p>
+          If so, make sure to follow me on <a
+            href="https://github.com/maciejpedzich"
+            target="_blank"
+            rel="noopener noreferrer">GitHub</a
+          >, <a
+            href="https://twitter.com/MaciejPedzich"
+            target="_blank"
+            rel="noopener noreferrer">Twitter</a
+          >, or <a rel="me" href="https://notacult.social/@macindahaus"
+            >Mastodon</a
+          >.
+        </p>
+      </section>
     </main>
     <Footer />
     <style>
@@ -65,9 +70,8 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
         text-align: center;
       }
 
-      h2,
-      h3 {
-        text-transform: none;
+      section {
+        margin-bottom: 1.25rem;
       }
 
       h3 {
@@ -75,7 +79,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
       }
 
       p {
-        margin: 0.5rem 0 1rem 0;
+        margin: 0 0 1rem 0;
       }
     </style>
   </body>
