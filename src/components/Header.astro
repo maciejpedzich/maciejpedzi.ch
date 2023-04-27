@@ -12,7 +12,7 @@ import HeaderLink from './HeaderLink.astro';
     <HeaderLink href="/blog">Blog</HeaderLink>
     <HeaderLink href="/projects">Projects</HeaderLink>
     <HeaderLink href="/resume.pdf">Resume</HeaderLink>
-    <HeaderLink href="mailto:contact@maciejpedzi.ch">Email me</HeaderLink>
+    <HeaderLink href="mailto:contact@maciejpedzi.ch">Get in touch</HeaderLink>
     <HeaderLink href="/links">Links</HeaderLink>
   </nav>
 </header>
@@ -24,7 +24,8 @@ import HeaderLink from './HeaderLink.astro';
     }
   }
 
-  nav {
+  nav.cmr2-text {
+    line-height: 1.5;
     flex-wrap: nowrap;
     overflow-x: auto;
   }
@@ -45,5 +46,9 @@ import HeaderLink from './HeaderLink.astro';
   .logo {
     font-size: 2rem;
     margin: 1.25rem 0;
+  }
+
+  .logo > span:last-of-type {
+    border-left-width: 2px;
   }
 </style>
