@@ -39,20 +39,17 @@ a:visited {
 
 a:hover,
 a:active {
-  color: #bbb;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 a:focus {
+  color: #ccc;
   outline: 2px solid #ccc;
   outline-offset: 3px;
 }
 
 p {
   text-align: left;
-}
-
-a:visited {
-  color: unset;
 }
 
 ul {
@@ -170,7 +167,7 @@ h1.cmr2-text {
 }
 
 .post-list a:focus {
-  outline: 2px solid #bbb;
+  outline: 2px solid #ccc;
   outline-offset: 3px;
 }
 
@@ -178,15 +175,16 @@ h1.cmr2-text {
   background: transparent;
 }
 
-a:focus-visible {
-  outline: 2px solid #bbb;
+.post-list a:focus-visible {
+  color: #ccc;
+  outline: 2px solid #ccc;
   outline-offset: 3px;
   background: transparent;
 }
 
 .post-list a:hover {
   outline: none;
-  color: #bbb;
+  color: #ccc;
 }
 
 .post-list a::before,
