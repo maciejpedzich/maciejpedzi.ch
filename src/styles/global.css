@@ -60,7 +60,7 @@ ul li {
   text-align: left;
 }
 
-li::before {
+ul li::before {
   content: '\25A1';
   font-size: 1.2em;
   margin-right: 3px;
