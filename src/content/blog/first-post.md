@@ -4,7 +4,6 @@ description: Lorem ipsum dolor sit amet
 pubDate: 2023-04-19T18:57:00.293Z
 categories:
   - dev diary
-draft: false
 tags:
   - vue
   - nuxt

@@ -23,15 +23,14 @@
           "isPublishDate": true
         },
         {
-          "title": "Is draft?",
-          "name": "draft",
-          "type": "draft",
-          "default": true
-        },
-        {
           "title": "Categories",
           "name": "categories",
           "type": "categories"
+        },
+        {
+          "title": "Tags",
+          "name": "tags",
+          "type": "tags"
         }
       ]
     }
@@ -46,5 +45,16 @@
       "previewPath": "/blog/{{pathToken.relPath}}/"
     }
   ],
-  "frontMatter.taxonomy.categories": ["Dev Journal", "Miscellaneous"]
+  "frontMatter.taxonomy.categories": ["dev diary", "online race reports"],
+  "frontMatter.taxonomy.tags": [
+    "alpine",
+    "appwrite",
+    "astro",
+    "f1",
+    "nuxt",
+    "planetscale",
+    "primevue",
+    "supabase",
+    "vue"
+  ]
 }
