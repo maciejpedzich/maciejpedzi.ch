@@ -4,12 +4,12 @@ const blog = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    draft: z.boolean().optional().default(true),
     pubDate: z
       .string()
       .or(z.date())
       .transform((val) => new Date(val)),
-    categories: z.enum(['Dev Journal', 'Miscellaneous']).array()
+    tags: z.string().array(),
+    categories: z.string().array()
   })
 });
 
