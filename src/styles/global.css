@@ -35,6 +35,7 @@ h3 {
 a,
 a:visited {
   color: #fff;
+  transition: 0.3s;
 }
 
 a:hover,
@@ -168,7 +169,7 @@ h1.cmr2-text {
 }
 
 .post-list a:focus {
-  outline: 2px solid #bbb;
+  outline: 2px solid rgba(255, 255, 255, 0.4);
   outline-offset: 3px;
 }
 
@@ -177,15 +178,15 @@ h1.cmr2-text {
 }
 
 .post-list a:focus-visible {
-  color: #bbb;
-  outline: 2px solid #bbb;
+  color: rgba(255, 255, 255, 0.4);
+  outline: 2px solid rgba(255, 255, 255, 0.4);
   outline-offset: 3px;
   background: transparent;
 }
 
 .post-list a:hover {
   outline: none;
-  color: #ccc;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .post-list a::before,
