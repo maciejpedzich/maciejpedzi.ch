@@ -7,6 +7,7 @@ categories:
 tags:
   - vue
   - nuxt
+draft: false
 ---
 
 ## Introduction

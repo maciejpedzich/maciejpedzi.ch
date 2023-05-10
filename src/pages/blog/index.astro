@@ -1,44 +1,32 @@
 ---
 import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 
-import BaseHead from '../../components/BaseHead.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-
-const posts = (await getCollection('blog')).sort(
+const posts = (await getCollection('blog', (entry) => !entry.data.draft)).sort(
   (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
 );
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <BaseHead
-      title="blog"
-      description="blog about the making of maciej's projects and more"
-    />
-    <style>
-      section {
-        text-align: center;
+<BaseLayout
+  title="blog"
+  description="blog about the making of maciej's projects and more"
+>
+  <section>
+    <h2>My blog</h2>
+    <ul class="post-list">
+      {
+        posts.map((post) => (
+          <li>
+            <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
+          </li>
+        ))
       }
-    </style>
-  </head>
-  <body>
-    <Header />
-    <main>
-      <section>
-        <h2>My blog</h2>
-        <ul class="post-list">
-          {
-            posts.map((post) => (
-              <li>
-                <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-    </main>
-    <Footer />
-  </body>
-</html>
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  section {
+    text-align: center;
+  }
+</style>

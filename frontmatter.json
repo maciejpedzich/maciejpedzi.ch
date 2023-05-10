@@ -23,6 +23,11 @@
           "isPublishDate": true
         },
         {
+          "title": "Draft",
+          "name": "draft",
+          "type": "draft"
+        },
+        {
           "title": "Categories",
           "name": "categories",
           "type": "categories"
