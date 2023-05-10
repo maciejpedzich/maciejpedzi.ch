@@ -45,15 +45,21 @@
       "previewPath": "/blog/{{pathToken.relPath}}/"
     }
   ],
-  "frontMatter.taxonomy.categories": ["dev diary", "online race reports"],
+  "frontMatter.taxonomy.categories": [
+    "dev diary",
+    "learning linux",
+    "miscellaneous"
+  ],
   "frontMatter.taxonomy.tags": [
     "alpine",
     "appwrite",
     "astro",
     "f1",
+    "linux",
     "nuxt",
     "planetscale",
     "primevue",
+    "ps4",
     "supabase",
     "vue"
   ]
