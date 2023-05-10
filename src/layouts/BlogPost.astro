@@ -1,9 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
@@ -11,26 +9,18 @@ type Props = CollectionEntry<'blog'>['data'];
 const { title, description, pubDate } = Astro.props;
 ---
 
-<html lang="en">
-  <head>
-    <BaseHead title={title} description={description} />
-    <style>
-      .title {
-        font-size: 2em;
-        margin: 0;
-        text-align: center;
-      }
-    </style>
-  </head>
-  <body>
-    <Header />
-    <main>
-      <article>
-        <h1 class="title">{title}</h1>
-        <FormattedDate date={pubDate} />
-        <slot />
-      </article>
-    </main>
-    <Footer />
-  </body>
-</html>
+<BaseLayout title={title} description={description}>
+  <article>
+    <h1 class="title">{title}</h1>
+    <FormattedDate date={pubDate} />
+    <slot />
+  </article>
+</BaseLayout>
+
+<style>
+  .title {
+    font-size: 2em;
+    margin: 0;
+    text-align: center;
+  }
+</style>

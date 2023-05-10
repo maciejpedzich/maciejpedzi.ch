@@ -1,85 +1,72 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_DESCRIPTION } from '../consts';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <BaseHead title="home" description={SITE_DESCRIPTION} />
-  </head>
-  <body>
-    <Header />
-    <main>
-      <section>
-        <h2>Welcome to my website</h2>
-        <p>
-          My name is <strong>Maciej</strong>, but if you're not sure how to
-          pronounce it, then you can call me <strong>Mac</strong>. I'm an
-          eighteen-year-old frontend developer from <strong>Poland</strong>.
-          Although I mainly use <strong>Vue</strong> and <strong>Nuxt</strong> for
-          my projects, I'm also familiar with <strong>Alpine</strong> and <strong
-            >Astro</strong
-          >.
-        </p>
-      </section>
-      <section>
-        <h3>My blog</h3>
-        <p>
-          It serves as a means of documenting the development process and inner
-          workings of <a href="/projects">my applications</a>. Check out the
-          latest posts below:
-        </p>
-        <ul class="post-list">
-          <li>
-            <a href="#">This link leads nowhere</a>
-          </li>
-          <li>
-            <a href="#"
-              >And so does this one. But why is that, some of you may ask</a
-            >
-          </li>
-          <li>
-            <a href="#">The answer is simple. They're placeholders</a>
-          </li>
-        </ul>
-      </section>
-      <section>
-        <h3>Enjoy my work?</h3>
-        <p>
-          If so, make sure to follow me on <a
-            href="https://github.com/maciejpedzich"
-            target="_blank"
-            rel="noopener noreferrer">GitHub</a
-          >, <a
-            href="https://twitter.com/MaciejPedzich"
-            target="_blank"
-            rel="noopener noreferrer">Twitter</a
-          >, or <a rel="me" href="https://notacult.social/@macindahaus"
-            >Mastodon</a
-          >.
-        </p>
-      </section>
-    </main>
-    <Footer />
-    <style>
-      main {
-        text-align: center;
-      }
+<BaseLayout title="home" description={SITE_DESCRIPTION}>
+  <section>
+    <h2>Welcome to my website</h2>
+    <p>
+      My name is <strong>Maciej</strong>, but if you're not sure how to
+      pronounce it, then you can call me <strong>Mac</strong>. I'm an
+      eighteen-year-old frontend developer from <strong>Poland</strong>.
+      Although I mainly use <strong>Vue</strong> and <strong>Nuxt</strong> for my
+      projects, I'm also familiar with <strong>Alpine</strong> and <strong
+        >Astro</strong
+      >.
+    </p>
+  </section>
+  <section>
+    <h3>My blog</h3>
+    <p>
+      It serves as a means of documenting the development process and inner
+      workings of <a href="/projects">my applications</a>. Check out the latest
+      posts below:
+    </p>
+    <ul class="post-list">
+      <li>
+        <a href="#">This link leads nowhere</a>
+      </li>
+      <li>
+        <a href="#"
+          >And so does this one. But why is that, some of you may ask</a
+        >
+      </li>
+      <li>
+        <a href="#">The answer is simple. They're placeholders</a>
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h3>Enjoy my work?</h3>
+    <p>
+      If so, make sure to follow me on <a
+        href="https://github.com/maciejpedzich"
+        target="_blank"
+        rel="noopener noreferrer">GitHub</a
+      >, <a
+        href="https://twitter.com/MaciejPedzich"
+        target="_blank"
+        rel="noopener noreferrer">Twitter</a
+      >, or <a rel="me" href="https://notacult.social/@macindahaus">Mastodon</a
+      >.
+    </p>
+  </section>
+</BaseLayout>
 
-      section {
-        margin-bottom: 1.25rem;
-      }
+<style>
+  section {
+    text-align: center;
+    margin-bottom: 1.25rem;
+  }
 
-      h3 {
-        font-size: 1.25rem;
-      }
+  h3 {
+    font-size: 1.25rem;
+  }
 
-      p {
-        margin: 0 0 1rem 0;
-      }
-    </style>
-  </body>
-</html>
+  p {
+    margin: 0 0 1rem 0;
+  }
+</style>
