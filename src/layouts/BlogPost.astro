@@ -6,21 +6,59 @@ import FormattedDate from '../components/FormattedDate.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate } = Astro.props;
+const { title, description, pubDate, draft, tags, categories } = Astro.props;
+const [category] = categories;
 ---
 
 <BaseLayout title={title} description={description}>
   <article>
     <h1 class="title">{title}</h1>
-    <FormattedDate date={pubDate} />
-    <slot />
+    <div id="metadata">
+      <p>date published: <FormattedDate date={pubDate} /></p>
+      <p>
+        category:
+        <span>
+          <a href={`/blog/categories/${encodeURIComponent(category)}`}
+            >{category}</a
+          >
+        </span>
+      </p>
+      <p>
+        <span
+          set:html={'tags: ' +
+            tags
+              .map((tag) => `<a href="/blog/tags/${tag}">${tag}</a>`)
+              .join(', ')}
+        />
+        {
+          draft && (
+            <div id="draft-warning">
+              <strong>
+                This is a draft! Its content is subject to change.
+              </strong>
+            </div>
+          )
+        }
+      </p>
+      <slot />
+    </div>
   </article>
-</BaseLayout>
 
-<style>
-  .title {
-    font-size: 2em;
-    margin: 0;
-    text-align: center;
-  }
-</style>
+  <style>
+    #metadata p {
+      margin-top: 0;
+      margin-bottom: 0.2rem;
+    }
+
+    .title {
+      font-size: 2em;
+      margin: 0;
+    }
+
+    #metadata p,
+    #draft-warning,
+    .title {
+      text-align: center;
+    }
+  </style>
+</BaseLayout>

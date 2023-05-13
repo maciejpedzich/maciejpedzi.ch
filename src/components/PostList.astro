@@ -1,0 +1,31 @@
+---
+import { CollectionEntry, getCollection } from 'astro:content';
+
+export interface Props {
+  filterFn?: (entry: CollectionEntry<'blog'>) => unknown;
+}
+
+const defaultFilterFn = (entry: CollectionEntry<'blog'>) => true;
+const { filterFn = defaultFilterFn } = Astro.props;
+
+const posts = (
+  await getCollection(
+    'blog',
+    (entry) => filterFn(entry) && (import.meta.env.DEV || !entry.data.draft)
+  )
+).sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+---
+
+<ul class="post-list">
+  {
+    posts.length === 0 ? (
+      <p>No posts were found</p>
+    ) : (
+      posts.map((post) => (
+        <li>
+          <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+        </li>
+      ))
+    )
+  }
+</ul>
