@@ -1,0 +1,31 @@
+---
+import BlogSubpage from '../../../layouts/BlogSubpage.astro';
+import frontMatterConfig from '../../../../frontmatter.json';
+
+const tags = frontMatterConfig['frontMatter.taxonomy.tags'];
+---
+
+<BlogSubpage title="tags" description="all tags of maciej's blog posts">
+  <ul id="tags">
+    {
+      tags.sort().map((tag) => (
+        <li>
+          <a href={`/blog/tags/${tag}`}>{tag}</a>
+        </li>
+      ))
+    }
+  </ul>
+</BlogSubpage>
+
+<style>
+  #tags {
+    margin-top: 0.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+  }
+
+  #tags > li::before {
+    content: '';
+  }
+</style>

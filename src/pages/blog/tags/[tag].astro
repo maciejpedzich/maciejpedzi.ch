@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+import BlogSubpage from '../../../layouts/BlogSubpage.astro';
+import PostList from '../../../components/PostList.astro';
+import frontMatterConfig from '../../../../frontmatter.json';
+
+export function getStaticPaths() {
+  const tags = frontMatterConfig['frontMatter.taxonomy.tags'];
+  return tags.map((tag) => ({ params: { tag } }));
+}
+
+const { tag } = Astro.params;
+
+const filterFn = (entry: CollectionEntry<'blog'>) =>
+  entry.data.tags.includes(tag as string);
+---
+
+<BlogSubpage
+  title={`posts tagged "${tag}"`}
+  description={`maciej's blog posts tagged "${tag}"`}
+>
+  <h3>Posts tagged <em>{tag}</em></h3>
+  <PostList filterFn={filterFn} />
+</BlogSubpage>

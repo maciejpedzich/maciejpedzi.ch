@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NavLink from '../components/NavLink.astro';
+
+export interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <section>
+    <h2>My blog</h2>
+    <nav class="cmr2-text" aria-label="">
+      <NavLink href="/blog">recent posts</NavLink>
+      <NavLink href="/blog/categories">categories</NavLink>
+      <NavLink href="/blog/tags">tags</NavLink>
+      <NavLink href="/blog/archive">archive</NavLink>
+      <NavLink href="/rss.xml" target="_blank">rss feed</NavLink>
+    </nav>
+    <slot />
+  </section>
+</BaseLayout>
+
+<style>
+  nav {
+    margin-bottom: 2rem;
+  }
+
+  section {
+    text-align: center;
+  }
+
+  section > h2 {
+    margin-bottom: 0.5em;
+  }
+</style>

@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+import BlogSubpage from '../../../layouts/BlogSubpage.astro';
+import PostList from '../../../components/PostList.astro';
+import frontMatterConfig from '../../../../frontmatter.json';
+
+export function getStaticPaths() {
+  const categories = frontMatterConfig['frontMatter.taxonomy.categories'];
+  return categories.map((category) => ({ params: { category } }));
+}
+
+const { category } = Astro.params;
+
+const filterFn = (entry: CollectionEntry<'blog'>) =>
+  entry.data.categories.includes(category as string);
+---
+
+<BlogSubpage
+  title={`"${category}" posts`}
+  description={`"blog posts from "${category}" category`}
+>
+  <h3><em>{category}</em> posts</h3>
+  <PostList filterFn={filterFn} />
+</BlogSubpage>

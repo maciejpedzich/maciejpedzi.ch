@@ -1,31 +1,11 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogSubpage from '../../layouts/BlogSubpage.astro';
 import PostList from '../../components/PostList.astro';
-import NavLink from '../../components/NavLink.astro';
 ---
 
-<BaseLayout
+<BlogSubpage
   title="blog"
   description="blog about the making of maciej's projects and more"
 >
-  <section>
-    <h2>My blog</h2>
-    <nav class="cmr2-text" aria-label="">
-      <NavLink href="/blog">recent posts</NavLink>
-      <NavLink href="/blog/categories">categories</NavLink>
-      <NavLink href="/blog/tags">tags</NavLink>
-      <NavLink href="/blog/archive">archive</NavLink>
-    </nav>
-    <PostList />
-  </section>
-</BaseLayout>
-
-<style>
-  section {
-    text-align: center;
-  }
-
-  section > h2 {
-    margin-bottom: 0.5em;
-  }
-</style>
+  <PostList />
+</BlogSubpage>
