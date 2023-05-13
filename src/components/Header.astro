@@ -1,5 +1,5 @@
 ---
-import HeaderLink from './HeaderLink.astro';
+import NavLink from './NavLink.astro';
 ---
 
 <header>
@@ -8,38 +8,17 @@ import HeaderLink from './HeaderLink.astro';
     <span>Pędzich</span>
   </span>
   <nav class="cmr2-text" aria-label="Site navigation">
-    <HeaderLink href="/">Home</HeaderLink>
-    <HeaderLink href="/blog">Blog</HeaderLink>
-    <HeaderLink href="/projects">Projects</HeaderLink>
-    <HeaderLink href="/resume.pdf">Resume</HeaderLink>
-    <HeaderLink href="/uses">Setup</HeaderLink>
-    <HeaderLink href="/links">Links</HeaderLink>
-    <HeaderLink href="mailto:contact@maciejpedzi.ch">Email me</HeaderLink>
+    <NavLink href="/">Home</NavLink>
+    <NavLink href="/blog">Blog</NavLink>
+    <NavLink href="/projects">Projects</NavLink>
+    <NavLink href="/resume.pdf">Resume</NavLink>
+    <NavLink href="/uses">Setup</NavLink>
+    <NavLink href="/links">Links</NavLink>
+    <NavLink href="mailto:contact@maciejpedzi.ch">Email me</NavLink>
   </nav>
 </header>
 
 <style>
-  @media only screen and (max-width: 625px) {
-    nav.cmr2-text {
-      justify-content: left;
-    }
-  }
-
-  nav.cmr2-text {
-    line-height: 1.5;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-  }
-
-  nav > a {
-    color: rgba(255, 255, 255, 0.4);
-    text-decoration: none;
-  }
-
-  header {
-    margin: 0em 0 2em;
-  }
-
   h2 {
     margin: 0.5em 0;
   }
