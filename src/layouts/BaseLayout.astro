@@ -19,7 +19,7 @@ export interface Props {
   image?: string;
 }
 
-const { title, description, image = '/placeholder-social.jpg' } = Astro.props;
+const { title, description, image = '/banner.png' } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const actualTitle = title === 'home' ? SITE_TITLE : `${title} | ${SITE_TITLE}`;
@@ -30,7 +30,7 @@ const actualTitle = title === 'home' ? SITE_TITLE : `${title} | ${SITE_TITLE}`;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonicalURL} />
     <title>{actualTitle}</title>
