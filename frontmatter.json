@@ -51,13 +51,14 @@
     }
   ],
   "frontMatter.taxonomy.categories": [
+    "arch linux arc",
     "dev diary",
-    "learning linux",
     "miscellaneous"
   ],
   "frontMatter.taxonomy.tags": [
     "alpine",
     "appwrite",
+    "arch",
     "astro",
     "f1",
     "linux",
