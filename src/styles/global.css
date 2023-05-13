@@ -157,6 +157,27 @@ h1.cmr2-text {
   color: #fff;
 }
 
+@media only screen and (max-width: 625px) {
+  nav.cmr2-text {
+    justify-content: left;
+  }
+}
+
+nav.cmr2-text {
+  line-height: 1.5;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+nav > a {
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+}
+
+header {
+  margin: 0em 0 2em;
+}
+
 /* The following styling rules have been adopted from:
   https://github.com/codrops/LineHoverStyles/ */
 
