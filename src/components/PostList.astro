@@ -16,16 +16,22 @@ const posts = (
 ).sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
 ---
 
-<ul class="post-list">
-  {
-    posts.length === 0 ? (
-      <p>No posts were found</p>
-    ) : (
-      posts.map((post) => (
+{
+  posts.length === 0 ? (
+    <p id="no-posts-found">No posts were found...</p>
+  ) : (
+    <ul class="post-list">
+      {posts.map((post) => (
         <li>
           <a href={`/blog/${post.slug}`}>{post.data.title}</a>
         </li>
-      ))
-    )
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  #no-posts-found {
+    text-align: center;
   }
-</ul>
+</style>
