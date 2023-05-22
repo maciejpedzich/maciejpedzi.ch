@@ -1,4 +1,5 @@
 ---
+import PostList from '../components/PostList.astro';
 import { SITE_DESCRIPTION } from '../consts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
@@ -23,22 +24,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       workings of <a href="/projects">my applications</a>. Check out the latest
       posts below:
     </p>
-    <ul class="post-list">
-      <li>
-        <a href="#">This link leads nowhere</a>
-      </li>
-      <li>
-        <a href="#"
-          >And so does this one. But why is that, some of you may ask</a
-        >
-      </li>
-      <li>
-        <a href="#">The answer is simple. They're placeholders</a>
-      </li>
-    </ul>
+    <PostList limit={3} />
   </section>
   <section>
-    <h3>Enjoy my work?</h3>
+    <h3>Like my work?</h3>
     <p>
       If so, make sure to follow me on <a
         href="https://github.com/maciejpedzich"

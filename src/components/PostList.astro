@@ -3,17 +3,21 @@ import { CollectionEntry, getCollection } from 'astro:content';
 
 export interface Props {
   filterFn?: (entry: CollectionEntry<'blog'>) => unknown;
+  limit?: number;
 }
 
-const defaultFilterFn = (entry: CollectionEntry<'blog'>) => true;
-const { filterFn = defaultFilterFn } = Astro.props;
+const defaultFilterFn = (_entry: CollectionEntry<'blog'>) => true;
+
+const { filterFn = defaultFilterFn, limit } = Astro.props;
 
 const posts = (
   await getCollection(
     'blog',
     (entry) => filterFn(entry) && (import.meta.env.DEV || !entry.data.draft)
   )
-).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, limit);
 ---
 
 {
