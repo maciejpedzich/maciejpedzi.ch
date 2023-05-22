@@ -38,9 +38,9 @@ The answer lied in a movie called _[The Social Network](https://www.imdb.com/tit
 
 After casting a vote, another pair was picked and the cycle continued. Each girl was assigned [an Elo rating](https://en.wikipedia.org/wiki/Elo_rating_system) that got updated based on the expected outcome of the vote and the actual result.
 
-It didn't take long before I connected two and two together to form the conceptual foundation for RaceMash and came up with the name itself. When it comes to the latter, I believe replacement of the letter _F_ with the letter _R_ in FaceMash is pretty much self-explanatory, and registering `racemash.com` domain name even more so.
+For the record, I didn't find what Mark had done _cool_, or otherwise morally acceptable. I did, however, enetertain the idea of using the core FaceMash mechanic of having the users choose one of two randomly selected **photographs** and updating their internal ratings based on the users' votes.
 
-But when it comes to the former, don't skip to the tech stack bit just yet, because my app will have two more features up its sleeve.
+It didn't take long before I came up with the name itself. Replacing the letter _F_ with the letter _R_ in FaceMash seemed like a fitting choice, given that my app would feature images of race cars. I settled on the name shortly after I found out that the `racemash.com` domain name had been available. And yes, I did go on to register it.
 
 ## How is this app supposed to work?
 
