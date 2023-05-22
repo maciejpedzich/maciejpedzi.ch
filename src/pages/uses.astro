@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="uses"
+  description="page describing mac's setup, ie. his computer's specs and peripherals"
+>
+  <h2>uses</h2>
+  <p>This page contains a list of specs for my laptop and my peripherals</p>
+  <h3>Laptop</h3>
+  <p>
+    It's an HP Omen 16 with the following specs:
+    <ul>
+      <li>OS: Arch Linux</li>
+      <li>DE: Xfce 4.18</li>
+      <li>WM: Xfwm4</li>
+      <li>CPU: AMD Ryzen 5800H clocked at 3.2 GHz</li>
+      <li>GPU: AMD Radeon RX 6600M with 8 GB of VRAM</li>
+      <li>RAM: 16 GB clocked at 3200 MHz</li>
+      <li>Storage: 1 TB PCIe NVMe M.2 SSD</li>
+      <!-- prettier-ignore -->
+      <li>Display:
+        <ul>
+          <li>Diagonal: 16.1 inches</li>
+          <li>Resolution: 1920x1080 pixels</li>
+          <li>Refresh rate: 144 Hz</li>
+        </ul>
+      </li>
+    </ul>
+  </p>
+  <h3>Peripherals</h3>
+  <ul>
+    <li>External display: Philips 32PFT4132 TV</li>
+    <li>Keyboard: SPC Gear GK630K Tournament Kailh Brown RGB</li>
+    <li>Mouse: Dell WM126</li>
+    <li>Microphone: SPC Gear SM900T</li>
+    <li>Webcam: Thronmax Stream GO X1 1080P</li>
+  </ul>
+</BaseLayout>
+
+<style>
+  h2 {
+    text-align: center;
+  }
+</style>
