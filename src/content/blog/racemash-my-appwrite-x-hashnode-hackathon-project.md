@@ -77,3 +77,9 @@ But when it comes to the app's deployment, I'm going to roll with Netlify, becau
 ## When are you going to launch it?
 
 I'm aiming to release RaceMash on June 7. I might do it a couple days earlier, but at the same time don't want to do it later than June 14, because that's the hackathon's deadline day. At any rate, I should manage to deliver the app on time.
+
+## Wrapping up
+
+Thank you so much for reading this post! Stay tuned for the next one, where I'll write up my Vue and Appwrite project setup, and maybe even implementing Appwrite third-party authentication.
+
+Take care!
