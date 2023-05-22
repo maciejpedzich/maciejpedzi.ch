@@ -13,7 +13,9 @@ tags:
   - vuetify
 ---
 
-Hey folks! I'd like to share some details about **RaceMash** - an application I'm building for the [Appwrite x Hashnode Hackathon](https://hashnode.com/hackathons/appwrite) by answering the following questions that might have just come up in your head:
+Hey folks!
+
+I'd like to share some details about **RaceMash** - an application I'm building for the [Appwrite x Hashnode Hackathon](https://hashnode.com/hackathons/appwrite) by answering the following questions that might have just come up in your head:
 
 - What inspired you to start this project?
 - How is this app supposed to work?
@@ -32,13 +34,13 @@ Once I was done with all the setup business, I decided to test some of my favour
 
 One of these games was F1 22, and unsurprisingly, the laptop could handle it without breaking a sweat. And right as I was about to move on to another title, I thought I'd play around with the built-in photo mode now that I owned proper hardware to take some decent pictures.
 
-1650 photos and 6 gigabytes later, it's safe to say I got hooked. But how could I put at least some of these images to a good use (apart from creating a compilation of wallpapers for my laptop)?
+[1650 photos and 6 gigabytes later](https://drive.google.com/drive/folders/1b6myyYW8Tu2hma0AYsrnJfl-WoEP5a1x?usp=share_link), it's safe to say I got hooked. But how could I put at least some of these images to a good use (apart from creating a compilation of wallpapers for my laptop)?
 
 The answer lied in a movie I saw last week. It's called _[The Social Network](https://www.imdb.com/title/tt1285016)_, and the scene that served as my source of inspiration was the one where Mark Zuckerberg developed **FaceMash**.
 
 It was a website where the user got to choose one of two randomly picked girls based on their photographs to decide which one they (as in the user, not the girls themselves) found more attractive. After casting a vote, another pair was picked and the cycle continued. Each girl was assigned [an Elo rating](https://en.wikipedia.org/wiki/Elo_rating_system) that got updated based on the expected outcome of the vote and the actual result.
 
-For the record, I didn't find what Mark had done _cool_, or otherwise morally acceptable. I did, however, entertain the idea of using the core FaceMash mechanic of having the users choose one of two randomly selected **photographs**  and updating their internal ratings based on the users' votes.
+For the record, I didn't find what Mark had done _cool_, or otherwise morally acceptable. I did, however, entertain the idea of using the core FaceMash mechanic of having the users choose one of two randomly selected **photographs**  and updating their internal scores based on the users' votes.
 
 It didn't take long before I came up with the name for my project. Replacing the letter _F_ with the letter _R_ in FaceMash seemed like a fitting choice, given that my app would feature images of race cars. I settled on the name shortly after I learned that the `racemash.com` domain name was available. And yes, I did go on to register it.
 
@@ -50,7 +52,7 @@ Before you start voting you'll just need to log in via GitHub, Google, or Discor
 
 Anyway, you can press one of three buttons to register your vote - one for each photo plus an option to _declare a draw_ if you like (or dislike) both images equally. After pressing one of these buttons, your vote will be submitted and you'll be shown a different pair of pictures for you to vote again, and so on and so forth.
 
-When it comes to the rating system, I've opted to use [Glicko-2](http://www.glicko.net/glicko/glicko2.pdf), because it requires you to periodically update ratings instead of doing so after every vote registration, which effectively alllows me to take advantage of [scheduling Appwrite function executions](https://appwrite.io/docs/functions#scheduled-execution).
+When it comes to the rating system, I've opted to use [Glicko-2](http://www.glicko.net/glicko/glicko2.pdf), because it requires you to update ratings periodically instead of doing so after every vote registration, which effectively alllows me to take advantage of [scheduling Appwrite function executions](https://appwrite.io/docs/functions#scheduled-execution).
 
 But of course, I'm pretty sure most of you (myself included) would get bored out of their minds after pointlessly casting votes after a few minutes, so here's a solution that I reckon should maximise the site's retention rate.
 
