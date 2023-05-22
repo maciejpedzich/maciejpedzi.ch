@@ -56,7 +56,7 @@ But of course, I'm pretty sure most of you (myself included) would get bored out
 
 It's a progress bar displaying how many votes you've casted so far and how many there are to go. Now, if the app simultaneously picks 2 random photos out of 24 and the order in which they appear doesn't matter, it means there are **24 choose 2**, or **276** possible votes a single user can register.
 
-If you're unsure as to how I've calculated that, then I highly recommend checking out [this article about binomial distribution](https://www.mathsisfun.com/data/binomial-distribution.html).
+If you're unsure as to how I've calculated that, then I highly recommend checking out [this article about binomial distribution](https://www.mathsisfun.com/data/binomial-distribution.html). And if you prefer watching videos, then [Khan Academy's got you covered](https://www.youtube.com/watch?v=WWv0RUxDfbs).
 
 So, with a total of 276 possible voting sessions per user, the bar should go up by about one percentage point every `Math.ceil(276 / 100)`, or 3 submitted votes. I think this is more or less a happy medium between too fast and too slow progression, but I'll find out whether this is true or not only after launching the app.
 
@@ -68,7 +68,7 @@ RaceMash is a great fit for an SPA, because it relies heavily on user interactiv
 
 This is why I've opted to use _vanilla_ Vue 3. And yes, I'm aware that [Nuxt 3 offers client-side rendering](https://nuxt.com/docs/guide/concepts/rendering#client-side-rendering), as well as plenty of other DX improvements such as auto-imports. But since I'm already planning to rewrite [Spotify Playlist Archive](https://spotifyplaylistarchive.com) in Nuxt 3's stable version (at the time of writing, it's still powered by a release candidate), I thought it would be nice to make a Vue app for a change.
 
-When it comes to the component library, it's high time I revisited Vuetify. I haven't used Vuetify since Vue 3 came out, since the former initially offered no support for the latter. But since this is no longer the case, I've finally got an opportunity to see it in some development action.
+When it comes to the component library, it's high time I revisited Vuetify. I haven't used Vuetify since Vue 3 came out, as the former initially offered no support for the latter. This is no longer the case, though, so I've finally got an opportunity to see it in some development action.
 
 Since I'm building a project for an Appwrite-run hackathon, I don't think I need to explain why I've chosen it as my backend service provider.
 
