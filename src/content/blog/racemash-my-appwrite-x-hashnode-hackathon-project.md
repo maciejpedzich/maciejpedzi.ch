@@ -1,8 +1,8 @@
 ---
 title: racemash - my appwrite x hashnode hackathon project
 description: Describing the inspiration and tech stack behind RaceMash and how it works.
-pubDate: 2023-05-22T09:25:30.983Z
-draft: true
+pubDate: 2023-05-22T20:47:34.015Z
+draft: false
 categories:
   - dev diary
 tags:
