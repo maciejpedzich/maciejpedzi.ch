@@ -38,7 +38,7 @@ The answer lied in a movie I saw last week. It's called _[The Social Network](ht
 
 It was a website where the user got to choose one of two randomly picked girls based on their photographs to decide which one they (as in the user, not the girls themselves) found more attractive. After casting a vote, another pair was picked and the cycle continued. Each girl was assigned [an Elo rating](https://en.wikipedia.org/wiki/Elo_rating_system) that got updated based on the expected outcome of the vote and the actual result.
 
-For the record, I didn't find what Mark had done _cool_, or otherwise morally acceptable. I did, however, enetertain the idea of using the core FaceMash mechanic of having the users choose one of two randomly selected **photographs I had taken**  and updating their internal ratings based on the users' votes.
+For the record, I didn't find what Mark had done _cool_, or otherwise morally acceptable. I did, however, enetertain the idea of using the core FaceMash mechanic of having the users choose one of two randomly selected **photographs**  and updating their internal ratings based on the users' votes.
 
 It didn't take long before I came up with the name for my project. Replacing the letter _F_ with the letter _R_ in FaceMash seemed like a fitting choice, given that my app would feature images of race cars. I settled on the name shortly after I learned that the `racemash.com` domain name was available. And yes, I did go on to register it.
 
@@ -52,7 +52,7 @@ Anyway, you can press one of three buttons to register your vote - one for each 
 
 When it comes to the rating system, I've opted to use [Glicko-2](http://www.glicko.net/glicko/glicko2.pdf), because it requires you to periodically update ratings instead of doing so after every vote registration, which effectively alllows me to take advantage of [scheduling Appwrite function executions](https://appwrite.io/docs/functions#scheduled-execution).
 
-But of course, I'm pretty sure most of you (myself included) would get bored out of their minds after pointlessly casting votes for 5 minutes or less, so here's a solution that I reckon should maximise the site's retention rate.
+But of course, I'm pretty sure most of you (myself included) would get bored out of their minds after pointlessly casting votes after a few minutes, so here's a solution that I reckon should maximise the site's retention rate.
 
 It's a progress bar displaying how many votes you've casted so far and how many there are to go. Now, if the app simultaneously picks 2 random photos out of 24 and the order in which they appear doesn't matter, it means there are **24 choose 2**, or **276** possible votes a single user can register.
 
@@ -64,15 +64,15 @@ It doesn't end there, however, since I'm also looking to reward users who have b
 
 ## What tools are you going to use to build RaceMash?
 
-RaceMash is a great fit for an SPA, because it relies heavily on user interactivity, but at the same time it doesn't need top-notch SEO (especially if most of the site's functionality requires authentication).
+RaceMash is a great fit for an SPA, because it relies heavily on user interactivity, and at the same time it doesn't need top-notch SEO (especially if most of the site's functionality requires authentication).
 
-This is why I've opted to use _vanilla_ Vue 3. And yes, I'm aware that [Nuxt 3 offers client-side rendering](https://nuxt.com/docs/guide/concepts/rendering#client-side-rendering), as well as plenty of other DX improvements such as auto-imports. But since I'm already looking to rewrite [Spotify Playlist Archive](https://spotifyplaylistarchive.com) in Nuxt 3's stable version (at the time of writing, it's still powered by a release candidate), I thought it would be nice to make a Vue app for a change.
+This is why I've opted to use _vanilla_ Vue 3. And yes, I'm aware that [Nuxt 3 offers client-side rendering](https://nuxt.com/docs/guide/concepts/rendering#client-side-rendering), as well as plenty of other DX improvements such as auto-imports. But since I'm already planning to rewrite [Spotify Playlist Archive](https://spotifyplaylistarchive.com) in Nuxt 3's stable version (at the time of writing, it's still powered by a release candidate), I thought it would be nice to make a Vue app for a change.
 
 When it comes to the component library, it's high time I revisited Vuetify. I haven't used Vuetify since Vue 3 came out, since the former initially offered no support for the latter. But since this is no longer the case, I've finally got an opportunity to see it in some development action.
 
-Since I'm building a project for an Appwrite-run hackathon, I don't think I need to explain why I chose it as my backend service provider.
+Since I'm building a project for an Appwrite-run hackathon, I don't think I need to explain why I've chosen it as my backend service provider.
 
-But when it comes to the app's deployment, I'm going to roll with Netlify, because I've used it for the vast majority of my projects, and it has always proved a joy to use. The same goes for Plausible - my go-to analytics provider.
+But when it comes to the app's deployment, I'm going to roll with Netlify, because I've used it for the vast majority of my projects, and it has always proved a joy to use. The same goes for Plausible - my go-to analytics solution.
 
 ## When are you going to launch it?
 
