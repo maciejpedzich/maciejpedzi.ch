@@ -6,7 +6,7 @@ const tags = frontMatterConfig['frontMatter.taxonomy.tags'];
 ---
 
 <BlogSubpage title="tags" description="all tags of maciej's blog posts">
-  <ul id="tags">
+  <ul class="inline-list">
     {
       tags.sort().map((tag) => (
         <li>
@@ -16,16 +16,3 @@ const tags = frontMatterConfig['frontMatter.taxonomy.tags'];
     }
   </ul>
 </BlogSubpage>
-
-<style>
-  #tags {
-    margin-top: 0.25rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem 1rem;
-  }
-
-  #tags > li::before {
-    content: '';
-  }
-</style>

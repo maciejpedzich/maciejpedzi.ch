@@ -177,3 +177,14 @@ nav > a {
 header {
   margin: 0em 0 2em;
 }
+
+.inline-list {
+  margin-top: 0.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+}
+
+.inline-list > li::before {
+  content: '';
+}
