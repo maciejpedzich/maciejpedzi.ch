@@ -50,22 +50,21 @@
       "previewPath": "/blog/{{pathToken.relPath}}/"
     }
   ],
-  "frontMatter.taxonomy.categories": [
-    "dev diary",
-    "miscellaneous"
-  ],
+  "frontMatter.taxonomy.categories": ["dev diary", "miscellaneous"],
   "frontMatter.taxonomy.tags": [
     "alpine",
     "appwrite",
     "arch",
     "astro",
-    "f1",
+    "formulaone",
     "linux",
     "nuxt",
     "planetscale",
     "primevue",
     "ps4",
+    "racemash",
     "supabase",
-    "vue"
+    "vue",
+    "vuetify"
   ]
 }
