@@ -38,13 +38,13 @@ The answer lied in a movie I saw last week. It's called _[The Social Network](ht
 
 It was a website where the user got to choose one of two randomly picked girls based on their photographs to decide which one they (as in the user, not the girls themselves) found more attractive. After casting a vote, another pair was picked and the cycle continued. Each girl was assigned [an Elo rating](https://en.wikipedia.org/wiki/Elo_rating_system) that got updated based on the expected outcome of the vote and the actual result.
 
-For the record, I didn't find what Mark had done _cool_, or otherwise morally acceptable. I did, however, enetertain the idea of using the core FaceMash mechanic of having the users choose one of two randomly selected **photographs**  and updating their internal ratings based on the users' votes.
+For the record, I didn't find what Mark had done _cool_, or otherwise morally acceptable. I did, however, entertain the idea of using the core FaceMash mechanic of having the users choose one of two randomly selected **photographs**  and updating their internal ratings based on the users' votes.
 
 It didn't take long before I came up with the name for my project. Replacing the letter _F_ with the letter _R_ in FaceMash seemed like a fitting choice, given that my app would feature images of race cars. I settled on the name shortly after I learned that the `racemash.com` domain name was available. And yes, I did go on to register it.
 
 ## How is this app supposed to work?
 
-Although you've probably got a general idea of how RaceMash is meant to work from the previous paragrapgh, in this one I'll give you a more detailed description of the voting process as well as a couple other features.
+Although you've probably got a general idea of how RaceMash is meant to work from the previous paragraph, in this one I'll give you a more detailed description of the voting process as well as a couple other features.
 
 Before you start voting you'll just need to log in via GitHub, Google, or Discord. From there, just like in FaceMash, you'll be presented with 2 randomly selected photographs out of a total 24 I've taken. Why 24? Because that's the number of tracks available in F1 22.
 
