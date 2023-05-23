@@ -1,7 +1,7 @@
 ---
 title: setting up vue and appwrite projects for racemash
-description: ""
-pubDate: 2023-05-23T06:49:37.633Z
+description: From ESLint and Prettier configs to creating Appwrite databases and everything in between
+pubDate: 2023-05-23T18:48:00.556Z
 draft: false
 categories:
   - dev diary
