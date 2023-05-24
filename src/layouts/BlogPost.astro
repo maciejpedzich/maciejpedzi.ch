@@ -6,7 +6,8 @@ import FormattedDate from '../components/FormattedDate.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, draft, tags, categories } = Astro.props;
+const { title, description, pubDate, lastEditDate, draft, tags, categories } =
+  Astro.props;
 const [category] = categories;
 ---
 
@@ -15,6 +16,15 @@ const [category] = categories;
     <h1 class="title">{title}</h1>
     <div id="metadata">
       <p>date published: <FormattedDate date={pubDate} /></p>
+      {
+        lastEditDate && (
+          <p>
+            <em>
+              date edited: <FormattedDate date={lastEditDate} />
+            </em>
+          </p>
+        )
+      }
       <p>
         category:
         <span>

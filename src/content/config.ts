@@ -9,6 +9,11 @@ const blog = defineCollection({
       .string()
       .or(z.date())
       .transform((val) => new Date(val)),
+    lastEditDate: z
+      .string()
+      .or(z.date())
+      .transform((val) => new Date(val))
+      .optional(),
     tags: z.string().array(),
     categories: z.string().array()
   })

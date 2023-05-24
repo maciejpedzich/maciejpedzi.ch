@@ -16,11 +16,19 @@
           "type": "string"
         },
         {
-          "title": "Publishing date",
+          "title": "Date published",
           "name": "pubDate",
           "type": "datetime",
           "default": "{{now}}",
           "isPublishDate": true
+        },
+        {
+          "title": "Date last edited",
+          "name": "lastEditDate",
+          "type": "datetime",
+          "default": "{{now}}",
+          "isModifiedDate": true,
+          "required": false
         },
         {
           "title": "Draft",
