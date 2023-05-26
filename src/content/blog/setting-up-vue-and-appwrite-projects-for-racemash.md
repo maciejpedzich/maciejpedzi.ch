@@ -2,6 +2,7 @@
 title: setting up vue and appwrite projects for racemash
 description: From ESLint and Prettier configs to creating Appwrite databases and everything in between
 pubDate: 2023-05-23T18:48:00.556Z
+lastEditDate: 2023-05-24T08:04:47.377Z
 draft: false
 categories:
   - dev diary
@@ -95,6 +96,48 @@ export default defineConfig({
   plugins: [eslint()]
 });
 ```
+
+### Removing placeholder components
+
+I first removed the `components` and `layouts` folders that were inside the `src` directory. Then I opened the `index.ts` file that was inside the `router` directory and modified to remove the, in my opinion, odd nested route declaration that technically made use of the layout components but actually didn't (you'll see why in a minute). I ended up with a router file that looked like this:
+
+```ts
+import { createRouter, createWebHistory } from 'vue-router';
+import Home from '@/views/Home.vue';
+
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home
+  }
+];
+
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
+  routes
+});
+
+export default router;
+```
+
+Next up was the `App.vue` file, and since it didn't have a `<RouterView />`, but instead a `<HelloWorld />` component, it never displayed the actual root route's template, which confusingly enough was the same component, but a quick look inside Vue devtools confirmed it came from the App component, and not the `Home` view.
+
+So I removed the `HelloWorld` component import and replaced `<HelloWorld />` with `<RouterView />`, ending up with:
+
+```vue
+<template>
+  <v-app>
+    <v-main>
+      <RouterView />
+    </v-main>
+  </v-app>
+</template>
+```
+
+Last but not least, I did the same in `Home.vue` view, but using a temporary `<h1>Hello, World!</h1>`, ran `npm run dev`, and opened the page.
+
+![Blank web page displaying bold "Hello World" text](/racemash-app-hello-world.png)
 
 ## Appwrite project
 
