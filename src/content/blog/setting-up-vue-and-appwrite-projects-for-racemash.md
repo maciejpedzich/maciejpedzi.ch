@@ -2,7 +2,7 @@
 title: setting up vue and appwrite projects for racemash
 description: From ESLint and Prettier configs to creating Appwrite databases and everything in between
 pubDate: 2023-05-23T18:48:00.556Z
-lastEditDate: 2023-05-24T08:04:47.377Z
+lastEditDate: 2023-05-26T20:04:45.875Z
 draft: false
 categories:
   - dev diary
@@ -164,10 +164,10 @@ interface ImportMetaEnv {
 }
 ```
 
-`appwriteClient.ts`
+`appwrite.ts`
 
 ```ts
-import { Client } from 'appwrite';
+import { Account, Client, Databases } from 'appwrite';
 
 const appwriteClient = new Client();
 
@@ -175,7 +175,8 @@ appwriteClient
   .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)
   .setProject(import.meta.env.VITE_APPWRITE_PROJECT_ID);
 
-export { appwriteClient };
+export const account = new Account(appwriteClient);
+export const databases = new Databases(appwriteClient);
 ```
 
 I wasn't ready to test the connection just yet, because I still had to set up auth and databse collections. Speaking of which...
