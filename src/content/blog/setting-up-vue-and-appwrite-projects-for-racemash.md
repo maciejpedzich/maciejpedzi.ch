@@ -191,7 +191,7 @@ Speaking of which, here's how I did it. I opened GitHub and clicked on my profil
 
 I entered my app's name, its home page's URL (ie. `https://racemash.com`), and pasted in that callback URL I mentioned two paragraphs earlier. After submitting the form, I was taken to my GitHub app's settings screen that displayed the app's ID and a button to generate a client secret. I clicked in and copied newly generated secret.
 
-Then I returned to my Appwrite project's Dashboard and entered the GitHub app's client ID and the client secret. And that was it - a very straightforwad process.
+Then I returned to my Appwrite project's Dashboard and entered the GitHub app's client ID and the client secret. And that was it - a very straightforward process.
 
 ### Configuring Discord OAuth
 

@@ -25,7 +25,7 @@ I started by implementing a `useAuth` composable that would provide both the aut
 
 It consists of the following elements that are placed outside the exported `useAuth`:
 
-- `user` ref for storing the currently logged in user. If not logged in, the value is set to `null`
+- `user` ref for storing the currently logged-in user. If not logged in, the value is set to `null`
 - `loadingUserFinished` ref for indicating whether the `loadUser` function, which we'll get to in a minute, has already been executed or not. It's set to `false` by default
 - `isLoggedIn` computed property that essentially uses double negation on the `user` ref's value to convert it to a boolean
 
@@ -77,7 +77,7 @@ const logIn = (provider: 'github' | 'discord') => {
 
 So, the `logIn` function accepts a single argument for the OAuth provider to use. Then I declare a `redirectPath` constant that we set to the value of the `redirectPath` item inside `localStorage` or `/` if the former is `null`, as well as a rather self-explanatory `permissionScopes` constant. They both appply to read-only user information, with the only difference lying in their names for respective providers.
 
-Finally, I call the Account SDK's `createOAuth2Session` method with the `provider` argument, successful auth callback URL that, failed auth callback URL and the `permissionScopes` array.
+Finally, I call the Account SDK's `createOAuth2Session` method with the `provider` argument, successful auth callback URL, failed auth callback URL and the `permissionScopes` array.
 
 ### loadUser method
 
@@ -104,7 +104,7 @@ const loadUser = async () => {
 
 It first checks if the `loadingUserFinished` flag has been set to prevent itself from making unnecessary requests to our Appwrite project. If this flag hasn't been set though, then it actually performs the request, and if the user has an active session, it populates the `user` ref with the object that I receive after resolving the promise returned by the `account.get` function.
 
-If I called that function without authenticating first, it would throw an error, since I'd be trying to access the `accounts` resource as a `guest`, who doesn't have sufficient permissions to do that. This is why I needed to catch said error and set the `user` ref's value back to `null` (and also log the error indev mode in case a different one occurred, such as the Appwrite project being down)
+If I called that function without authenticating first, it would throw an error, since I'd be trying to access the `accounts` resource as a `guest`, who doesn't have sufficient permissions to do that. This is why I needed to catch said error and set the `user` ref's value back to `null` (and also log the error in dev mode in case a different one occurred, such as the Appwrite project being down)
 
 And finally, I have the `finally` block, where we set the aforementioned `loadingUserFlag` to `true` regardless of an error being thrown or not.
 
@@ -119,7 +119,7 @@ const logOut = async () => {
 };
 ```
 
-### End result
+### Result
 
 AKA what you probably came here for anyway. Enjoy!
 
@@ -179,7 +179,7 @@ export function useAuth() {
 }
 ```
 
-## Preparing a LogIn view
+## Preparing the LogIn view
 
 ### the template
 
