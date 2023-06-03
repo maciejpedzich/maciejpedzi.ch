@@ -60,18 +60,9 @@
   ],
   "frontMatter.taxonomy.categories": ["dev diary", "miscellaneous"],
   "frontMatter.taxonomy.tags": [
-    "alpine",
     "appwrite",
-    "arch",
-    "astro",
     "formulaone",
-    "linux",
-    "nuxt",
-    "planetscale",
-    "primevue",
-    "ps4",
     "racemash",
-    "supabase",
     "vue",
     "vuetify"
   ]
