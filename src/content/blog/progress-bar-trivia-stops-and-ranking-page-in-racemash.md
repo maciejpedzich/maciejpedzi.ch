@@ -2,7 +2,7 @@
 title: progress bar, trivia stops, and ranking page in racemash
 description: Find out how I've implemented
 pubDate: 2023-07-06T07:55:12.475Z
-draft: true
+draft: false
 categories:
   - dev diary
 tags:
