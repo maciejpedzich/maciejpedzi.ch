@@ -2,6 +2,7 @@
 title: progress bar, trivia stops, and ranking page in racemash
 description: Find out how I've implemented
 pubDate: 2023-07-06T07:55:12.475Z
+lastEditDate: 2023-07-13T07:08:28.802Z
 draft: false
 categories:
   - dev diary
@@ -166,7 +167,7 @@ I also had to modify the template to add a couple `v-if`s to toggle between the 
 
 ## Ranking page
 
-Here comes the final feature to implement - the ranking page you can enter after submitting all votes. I wanted to sort the images by their ratings descendingly and display them in a responsive grid, where each image has a caption in the bottom left corner with the photo's position in the ranking as well as the aforementioned rating. I took advantage of Vuetify's card and grid components, but also the `useDisplay` composable to achieve this.
+Here comes the final feature to implement - the ranking page you can enter after submitting all votes. I wanted to sort the images by their ratings descendingly and display them in a responsive grid, where each image has a caption in the bottom left corner with the photo's position in the ranking as well as the aforementioned rating. On extra large desktop displays (ie. of 1080p resolution or higher), I wanted to display 4 images per row. On slightly smaller desktop/laptop screens, I wanted to show 3 photos per row, on tablet screens just 2, and finally one image per row for mobiles. I took advantage of Vuetify's card and grid components, but also the `useDisplay` composable to achieve this.
 
 ```vue
 <script setup lang="ts">
