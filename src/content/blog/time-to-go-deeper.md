@@ -1,10 +1,10 @@
 ---
-title: it's time to go deeper
+title: time to go deeper
 description: outlining and reasoning a plan to learn linux
 pubDate: 2023-08-23T10:36:51.379Z
+draft: false
 categories:
   - learning modern linux
-draft: false
 tags:
   - linux
   - planning

@@ -57,5 +57,15 @@
       "path": "[[workspace]]/src/content/blog",
       "previewPath": "/blog/{{pathToken.relPath}}/"
     }
+  ],
+  "frontMatter.taxonomy.categories": ["dev diary", "learning modern linux"],
+  "frontMatter.taxonomy.tags": [
+    "appwrite",
+    "formulaone",
+    "racemash",
+    "vue",
+    "vuetify",
+    "linux",
+    "planning"
   ]
 }
