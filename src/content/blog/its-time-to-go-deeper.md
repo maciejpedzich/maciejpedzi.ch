@@ -4,6 +4,7 @@ description: outlining and reasoning a plan to learn linux
 pubDate: 2023-08-23T10:36:51.379Z
 categories:
   - learning modern linux
+draft: false
 tags:
   - linux
   - planning
