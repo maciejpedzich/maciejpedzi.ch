@@ -1,9 +1,12 @@
 ---
 title: it's time to go deeper
-description: git gud or g
-pubDate: 2023-08-23T20:24:25.583Z
+description: outlining and reasoning a plan to learn linux
+pubDate: 2023-08-23T10:36:51.379Z
 categories:
   - learning modern linux
+tags:
+  - linux
+  - planning
 ---
 
 It's been a while since my last proper blog post, and I haven't touched Michael Hausenblas' _Learning Modern Linux_ book yet. I thought I'd use this opportunity to return to blogging and note key takeaways from the aforementioned book.
