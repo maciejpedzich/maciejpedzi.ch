@@ -3,10 +3,10 @@ import type { CollectionEntry } from 'astro:content';
 
 import BlogSubpage from '../../../layouts/BlogSubpage.astro';
 import PostList from '../../../components/PostList.astro';
-import frontMatterConfig from '../../../../frontmatter.json';
+import taxonomyDb from '../../../../.frontmatter/database/taxonomyDb.json';
 
 export function getStaticPaths() {
-  const categories = frontMatterConfig['frontMatter.taxonomy.categories'];
+  const { categories } = taxonomyDb.taxonomy;
   return categories.map((category) => ({ params: { category } }));
 }
 

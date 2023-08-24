@@ -1,8 +1,8 @@
 ---
 import BlogSubpage from '../../../layouts/BlogSubpage.astro';
-import frontMatterConfig from '../../../../frontmatter.json';
+import taxonomyDb from '../../../../.frontmatter/database/taxonomyDb.json';
 
-const tags = frontMatterConfig['frontMatter.taxonomy.tags'];
+const { tags } = taxonomyDb.taxonomy;
 ---
 
 <BlogSubpage title="tags" description="all tags of maciej's blog posts">
