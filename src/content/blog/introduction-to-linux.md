@@ -1,8 +1,8 @@
 ---
 title: introduction to linux
 description: Notes from the first two units of Michael Hausenblas' "Learning Modern Linux" book
-pubDate: 2023-08-25T08:22:57.657Z
-draft: true
+pubDate: 2023-08-25T15:22:00.890Z
+draft: false
 categories:
   - learning modern linux
 tags:
@@ -10,11 +10,7 @@ tags:
   - notes
 ---
 
-Hey folks! Here are my notes and key takeaways from the first unit of Michael Hausenblas' _Learning Modern Linux_ book.
-
-## Defining _Modern Linux_
-
-By _Modern Linux_, Michael Hausenblas means using the OS in modern environments such as mobile devices, data centres, or embedded systems like Raspberry Pi.
+Hey folks! Here are my notes from the first unit of Michael Hausenblas' _Learning Modern Linux_ book.
 
 ## Operating System
 
@@ -100,7 +96,7 @@ This architecture is utilised in the vast majority of personal computers, laptop
 
 It was developed by Acron engineeers in 1985 with focus on minimising power usage. Nowadays, ARM processors power multiple portable devices like modern smartphones, but also video game consoles like PS Vita, or Nintendo Switch, and of course single-board computers like Raspberry Pi.
 
-### RISC-V (RISC-Five)
+### RISC-V (RISC Five)
 
 The newest player to enter the CPU market, RISC-V was developed by researchers from the University of California, Berkley. There are plenty of existing and in-development implementations from the likes of Google, Nvidia, Western Digital, or Alibaba Group, but these processors currently aren't as widespread as the former two.
 
@@ -134,3 +130,35 @@ There are 4 main states a process can be in:
   - **Interruptible** - it can respond to both signals and resource availability
 - **Stopped** - once a process enters this state, it frees all of its resources and sends a `SIGCHLD` termination signal to its parent, which will then free the child process once it receives said signal
 - **Zombie** - process can enter that state after sending the termination signal and before getting removed from the process table by its parent. It means that a process is pretty much defunct at this point
+
+## Memory management
+
+Both the physical and virtual memory are divided into **pages** of fixed length. Pages of the former are called **page frames**, whereas pages of the latter are known as **virtual pages**. Many virtual pages can map to the same **page frame**. Processes believe they work with huge and contiguous sections of virtual memory; so huge in fact, that they exceed the amount of memory that's actually available.
+
+Whenever the CPU requests access to one of the virtual pages, the OS uses a **page table** to obtain the physical address that its virtual counterpart corresponds to. This mapping is a **page table entry (PTE)**.
+
+Modern CPUs contain a cache of recently used PTEs called **Translation Lookaside Buffer (TLB)**. This is what actually gets searched before the page table, and if the requested mapping is found, then the page table never gets queried. Otherwise, the lookup will be performed on said table, but the found PTE will later be saved in the TLB.
+
+Although the **default page size** is a mere 4 kilobytes, it's possible to increase it since the release of kernel 2.6.3. Furthermore, 64-bit Linux allows you to use up to **128 terabytes of virtual address space**, as well as **64 terabytes of physical memory**.
+
+## Network stack
+
+The Linux network stack consists of three layers:
+
+- **Sockets** for abstracting communication
+- **Communication Protocols** in form of **Transmission Control Protocol (TCP)** and **User Datagram Protocol (UDP)**
+- **Internet Protocol (IP)** for addressing and routing packets so that they can be delivered to the right machine
+
+Other protocls such as HTTP, FTP, SMTP, or SSH are implemented in the user space.
+
+## File systems
+
+File systems are used to organise files and directories in storage media (ie. your hard disk drives and solid-state drives). Linux supports many file systems such as ext4, btrfs, or NTFS. The Linux kernel provides a **Virtual File System (VFS)**, which allows programs running in the userland to interact with the filesystem.
+
+## Device drivers
+
+Device driver is a piece of software that runs in the kernel and is responsible for managing a physical device (such as a keyboard, mouse, gamepad, or even a GPU) or a pseudo-device (e.g. a pseudo-terminal), as well as providing a means of interfacing with said device for other programs.
+
+## System calls
+
+System calls offer a way for programs to request a service from the kernel, which will then execute a set of relevant architecture-specific instructions. Programs don't make use of syscalls directly. Instead, they utilise wrappers from the C standard library, which are available via `glibc` or `musl`.
