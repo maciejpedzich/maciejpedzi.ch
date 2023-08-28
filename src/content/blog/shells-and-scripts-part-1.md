@@ -2,7 +2,7 @@
 title: shells and scripts part 1
 description: Theory behind working with Linux via a CLI and automating various tasks
 pubDate: 2023-08-28T18:24:05.514Z
-draft: true
+draft: false
 categories:
   - learning modern linux
 tags:
