@@ -1,16 +1,1 @@
-{
-  "taxonomy": {
-    "tags": [
-      "appwrite",
-      "formulaone",
-      "linux",
-      "notes",
-      "planning",
-      "racemash",
-      "self-hosted",
-      "vue",
-      "vuetify"
-    ],
-    "categories": ["dev diary", "learning modern linux"]
-  }
-}
+{"taxonomy":{"tags":["appwrite","astro","formulaone","linux","notes","planning","racemash","self-hosted","vue","vuetify"],"categories":["dev diary","learning modern linux"]}}
