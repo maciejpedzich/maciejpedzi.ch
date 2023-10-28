@@ -1,6 +1,6 @@
 ---
 title: "leetcode one-liners: remove element"
-description: "Solving LeetCode's \"Remove Element\" problem by making clever use of Array.reduceRight and Array.splice"
+description: "Solving LeetCode's \"Remove Element\" problem by making clever use of reduceRight and splice array methods"
 pubDate: 2023-10-28T09:27:09.772Z
 draft: true
 categories:
