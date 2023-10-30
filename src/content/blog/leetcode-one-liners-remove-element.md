@@ -1,7 +1,8 @@
 ---
 title: "leetcode one-liners: remove element"
-description: "Solving LeetCode's \"Remove Element\" problem by making clever use of reduceRight and splice array methods"
+description: Solving LeetCode's "Remove Element" problem by making clever use of reduceRight and splice array methods
 pubDate: 2023-10-28T09:27:09.772Z
+lastEditDate: 2023-10-30T22:14:06.929Z
 draft: false
 categories:
   - leetcode one-liners
@@ -31,7 +32,7 @@ Note that by starting our loop from the last item, we ensure no item gets skippe
 
 ## the code
 
-After many different iterations, the one-liner that turned out to be the most runtime and memory efficient, clocked at 42 milliseconds (beating 95.15% of accepted submissions) and used 41.24 megabytes (beating 96.98% of accepted submissions) respectively. That's not too bad if you ask me.
+After many different iterations, the one-liner that turned out to be the most runtime and memory efficient, clocked at 42 milliseconds (beating 95.15% of accepted submissions) and used 41.24 megabytes of RAM (beating 96.98% of accepted submissions) respectively. That's not too bad if you ask me.
 
 But anyway, here's what the code looks like:
 
@@ -39,7 +40,7 @@ But anyway, here's what the code looks like:
 const removeElement = (nums, val) => nums.reduceRight((k, n, i) => k += 1 - nums.splice(i, +(n === val)).length, 0)
 ```
 
-If you take advantage of declaring implicit global variables, remove spaces, and take liberties with renaming the main function and its arguments, you can end up with this syntactically-valid beauty:
+If we take advantage of declaring implicit global variables, remove spaces, and take liberties with renaming the main function and its arguments, we can end up with this syntactically-valid beauty:
 
 ```js
 f=(a,v)=>a.reduceRight((k,n,i)=>k+=1-a.splice(i,+(n===v)).length,0)
@@ -82,20 +83,20 @@ This is another inline returhn arrow function, where we utilise the `+=` operato
 
 ### splice array method
 
-Splice is a really versatile method, because it allows you to add, replace, and most importantly for us, remove elements from an array. In order to do so, we need to provide it with 2 arguments:
+Splice is a really versatile method, because it allows us to add, replace, and most importantly for us, remove elements from an array. In order to do so, we need to provide it with 2 arguments:
 
 1. Index to start removing items from
 2. Number of items to remove
 
 So we pass `i` (the current item's index) as the first argument, but then follow it up with `+(n === val)`... what's up with that?
 
-`n === val` checks if the number we're iterating through equals the value whose all occurences in the `nums` array are supposed to be deleted. By wrapping this expresion in parentheses and prepending a `+`, we can convert the boolean returned by our equality comparison to a number: `1` for `true`, and `0` for `false`.
+`n === val` checks if the number we're iterating through equals the value whose all occurences in the `nums` array are supposed to be deleted. By wrapping this expresion in parentheses and prepending a `+` (known as a **unary plus** if you're into fancy technical vocabulary), we can convert the boolean returned by our equality comparison to a number: `1` for `true`, and `0` for `false`.
 
-This means that if `n === val` returns `true`, then the item we're looping through will be removed because the remove count will be set to `1`. Likewise, if `n === val` returns `false`, the delete count will be set to `0`, and thus the item won't get removed.
+It means that if `n === val` returns `true`, then the item we're looping through will be removed because the remove count will be set to `1`. Likewise, if `n === val` returns `false`, the delete count will be set to `0`, and thus the item won't get removed.
 
-Finally we take advantage of the `splice` method's return value, which is an array of items that have been removed. Therefore, we can obtain the delete count by reading this array's `length`. So if you come back to the `1 - nums.splice(i, +(n === val)).length` bit, we can now tell what `k` will get incremented by, and thus what our callback function will return.
+Finally, we leverage `splice`'s return value, which is an array of items that have been removed. Therefore, we can obtain the delete count by reading this array's `length`. So if we come back to the `1 - nums.splice(i, +(n === val)).length` bit, we can now tell what `k` will get incremented by.
 
-If the `length` of the array returned by `splice` equals `0` (ie. the current item hasn't got deleted), we increment `k` by `1 - 0`, so `1`. If the length of that array equals `1` (ie. the current item has been removed), we increment `k` by `1 - 1`, so `0`.
+If the `length` of the array returned by `splice` equals `0` (ie. the current item hasn't got deleted), we increment `k` by `1 - 0`, so by `1`. If the length of that array equals `1` (ie. the current item has been removed), we increment `k` by `1 - 1`, so by `0`.
 
 ### reduceRight's second argument
 
@@ -111,6 +112,6 @@ By passing `0` as the initial value for our `k`, we ensure no error gets thrown 
 
 Thank you so much if you've made it this far!
 
-While I agree that these examples put form over, hah, function, and that if you get too smart with one-liners the code can become unreadable, I also consider these self-imposed one-liner challenges a fun way to explore and exploit some of the features and quirks JavaScript has to offer.
+While I agree that these examples put form over functionyou (heh), and that if you get too smart with one-liners the code can become unreadable, I also consider these self-imposed one-liner challenges a fun way to explore and exploit some of the features and quirks JavaScript has to offer.
 
 Take care and stay tuned for the next post in this series!
