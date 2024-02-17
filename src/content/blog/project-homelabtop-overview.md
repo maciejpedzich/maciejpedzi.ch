@@ -2,7 +2,6 @@
 title: project homelabtop - overview
 description: when life gives you free laptops, make lemonade... or home servers... or both
 pubDate: 2024-02-17T05:03:42.526Z
-draft: true
 categories:
   - project homelabtop
 tags:
@@ -47,10 +46,10 @@ I'm looking to host all the projects listed below under `*.maciejpedzi.ch` (unle
 - **Gitea instance** as a GitHub mirror for repos I care about the most
 - **RaceMash (AHA Stack Edition)**: a rework of [this app](https://racemash.netlify.app/) I made with Vue, but using Astro, HTMX, Alpine, and a _proper backend_, ie. a CDN for serving images to vote for and a database for storing said votes
 - **Prometheus instance (internal)** for monitoring performance metrics of the laptop and all the apps/services mentioned above
-- **Grafana instance** for visualising data collected from Prometheus and other sources
-- **Portainer instance** for managing all these Docker containers
+- **Grafana instance** for visualising data collected from Prometheus and other sources.
+- **Portainer instance (internal)** for managing all these Docker containers
 
-I won't be able to deploy all these services mentioned above in those 2 or so weeks, but it's a solid starting point for the upcoming month or two
+I won't be able to deploy all these services mentioned above in those 2 or so weeks, but it's a solid starting point for the upcoming month or two.
 
 ## outro
 
