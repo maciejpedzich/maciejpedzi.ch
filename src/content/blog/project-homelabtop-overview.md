@@ -2,6 +2,7 @@
 title: project homelabtop - overview
 description: when life gives you free laptops, make lemonade... or home servers... or both
 pubDate: 2024-02-17T05:03:42.526Z
+draft: false
 categories:
   - project homelabtop
 tags:
