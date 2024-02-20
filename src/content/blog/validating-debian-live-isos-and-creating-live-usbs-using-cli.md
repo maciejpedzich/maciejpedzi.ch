@@ -1,5 +1,5 @@
 ---
-title: validating and installing debian live iso files
+title: validating debian live isos and creating live usbs using cli
 description: it ain't much, but it's honest work 
 pubDate: 2024-02-20T10:22:33.724Z
 draft: true
@@ -14,14 +14,16 @@ The last couple of days have been a bit busier than I expected, so here's a litt
 
 ## Verifying ISO file's checksums
 
-I've downloaded the latest stable version of standard (ie. without a desktop environment) live image, as well as `SHA256SUMS` and `SHA512SUMS` to verify if the cheksums of the ISO file are present in their respective lists:
+Once you've downloaded a live ISO of your choice, make sure to download `SHA256SUMS` and `SHA512SUMS` files as well. That's because you can use them to verify if the SHA256 or SHA512 cheksum of the ISO file is present in its respecitve `SUMS` file.
+
+Here's how I do it (replace `debian.iso` with the original file name of your ISO):
 
 ```sh
 cat SHA256SUMS | grep "$(sha256sum debian.iso)"
 cat SHA512SUMS | grep "$(sha512sum debian.iso)"
 ```
 
-Here's a breakdown of these commands in case you're not familiar with the Linux command line:
+In case you're not familiar with the Linux command line, I've got you covered with a breakdown:
 
 1. The `cat` command accepts a path to a given file, and if it exists, outputs its content
 2. The pipe symbol redirects the output of the command on the left-hand side to the input of the command on the right-hand side.
