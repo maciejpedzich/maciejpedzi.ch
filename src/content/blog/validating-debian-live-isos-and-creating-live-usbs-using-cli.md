@@ -2,7 +2,7 @@
 title: validating debian live isos and creating live usbs using cli
 description: it ain't much, but it's honest work 
 pubDate: 2024-02-20T10:22:33.724Z
-draft: true
+draft: false
 categories:
   - project homelabtop
 tags:
