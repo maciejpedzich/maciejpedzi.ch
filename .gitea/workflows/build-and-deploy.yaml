@@ -3,7 +3,7 @@ on: [push]
 
 jobs:
   Build-And-Deploy:
-    runs-on: ubuntu-latest:docker://catthehacker/ubuntu:act-latest
+    runs-on: ubuntu-latest:docker://catthehacker/ubuntu:runner-22.04
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
