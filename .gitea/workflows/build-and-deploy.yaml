@@ -1,0 +1,16 @@
+name: Build and deploy
+run-name: ${{ gitea.actor }} is testing out Gitea Actions 🚀
+on: [push]
+
+jobs:
+  Explore-Gitea-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Build Docker image
+        run: docker build -t my_website:latest .
+      - name: Rerun website's Docker container
+        run: docker stop my_website && \
+          docker rm my_website && \
+          docker run -d -p 6969:80 --name my_website my_website:latest
