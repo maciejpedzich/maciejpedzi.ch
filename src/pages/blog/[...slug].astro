@@ -25,9 +25,24 @@ const { Content, headings } = await post.render();
   <Content />
   <a href="https://notbyai.fyi" target="_blank" rel="noopener noreferrer">
     <img
+      id="notbyai"
       src="/Written-By-Human-Not-By-AI-Badge-white@2x.png"
       alt="Written by human, not by AI"
       width="160"
     />
   </a>
 </BlogPost>
+
+<style>
+  #notbyai {
+    transition-duration: 300ms;
+  }
+
+  #notbyai:hover {
+    transform: scale(1.075);
+  }
+
+  #notbyai:active {
+    transform: scale(0.95);
+  }
+</style>
