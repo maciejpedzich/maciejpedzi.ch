@@ -6,7 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     container: catthehacker/ubuntu:runner-22.04
     steps:
-      - uses: https://github.com/imlonghao/gitea-runner-docker-permission-fix@main
+      - name: Set up Docker daemon socket permissions
+        uses: https://github.com/imlonghao/gitea-runner-docker-permission-fix@main
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Build Docker image
