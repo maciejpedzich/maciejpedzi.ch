@@ -23,4 +23,11 @@ const { Content, headings } = await post.render();
 <BlogPost {...post.data}>
   {headings.length > 0 && <TableOfContents headings={headings} />}
   <Content />
+  <a href="https://notbyai.fyi" target="_blank" rel="noopener noreferrer">
+    <img
+      src="/Written-By-Human-Not-By-AI-Badge-white@2x.png"
+      alt="Written by human, not by AI"
+      width="160"
+    />
+  </a>
 </BlogPost>
