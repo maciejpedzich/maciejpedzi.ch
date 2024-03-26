@@ -12,4 +12,4 @@ jobs:
         run: docker build -t maciejpedzi.ch:latest .
       - run: pwd
       - name: Rerun website's Docker container
-        run: rerun-container.sh
+        run: chmod +x ./rerun-container.sh && ./rerun-container.sh
