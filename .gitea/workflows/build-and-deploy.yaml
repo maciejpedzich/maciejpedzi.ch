@@ -9,7 +9,6 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Build Docker image
-        run: docker build -t maciejpedzi.ch:latest .
-      - run: echo ${{ env.CONTAINER_NAME }}
+        run: docker build -t ${{ vars.IMAGE_TAG }} .
       - name: Rerun website's Docker container
-        run: chmod +x ./rerun-container.sh && ./rerun-container.sh $CONTAINER_NAME $PORT_PAIR $NETWORK_NAME $IMAGE_TAG
+        run: chmod +x ./rerun-container.sh && ./rerun-container.sh ${{ vars.CONTAINER_NAME }} ${{ vars.PORT_PAIR }} ${{ vars.NETWORK_NAME }} ${{ vars.IMAGE_TAG }}
