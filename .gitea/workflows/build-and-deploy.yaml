@@ -11,4 +11,9 @@ jobs:
       - name: Build Docker image
         run: docker build -t ${{ vars.IMAGE_TAG }} .
       - name: Rerun website's Docker container
-        run: chmod +x ./rerun-container.sh && (./rerun-container.sh ${{ vars.CONTAINER_NAME }} ${{ vars.PORT_PAIR }} ${{ vars.NETWORK_NAME }} ${{ vars.IMAGE_TAG }})
+        env:
+          CONTAINER_NAME: ${{ vars.CONATINER_NAME }}
+          NETWORK_NAME: ${{ vars.NETWORK_NAME }}
+          PORT_PAIR: ${{ vars.PORT_PAIR }}
+          IMAGE_TAG: ${{ vars.IMAGE_TAG }}
+        run: chmod +x ./rerun-container.sh && ./rerun-container.sh
