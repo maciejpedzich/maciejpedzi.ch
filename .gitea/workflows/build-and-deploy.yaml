@@ -11,4 +11,4 @@ jobs:
       - name: Build Docker image
         run: docker build -t maciejpedzi.ch:latest .
       - name: Rerun website's Docker container
-        run: chmod +x ./rerun-container.sh && ./rerun-container.sh ${{ env.CONTAINER_NAME }} ${{ env.PORT_PAIR }} ${{ env.NETWORK_NAME }} ${{ env.IMAGE_TAG }}
+        run: chmod +x ./rerun-container.sh && ./rerun-container.sh $CONTAINER_NAME $PORT_PAIR $NETWORK_NAME $IMAGE_TAG
