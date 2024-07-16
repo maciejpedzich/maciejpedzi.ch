@@ -1,6 +1,8 @@
 ---
-import PostList from '../components/PostList.astro';
+import '@fontsource/roboto/400.css';
+
 import { SITE_DESCRIPTION } from '../consts';
+import PostList from '../components/PostList.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
@@ -8,38 +10,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <section>
     <h2>Welcome to my website</h2>
     <p>
-      My name is <strong>Maciej</strong>, but if you're not sure how to
-      pronounce it, then you can call me <strong>Mac</strong>. I'm an
-      eighteen-year-old frontend developer from <strong>Poland</strong>.
-      Although I mainly use <strong>Vue</strong> and <strong>Nuxt</strong> for my
-      projects, I'm also familiar with <strong>Alpine</strong> and <strong
-        >Astro</strong
-      >.
+      If you don't know how to pronounce my name, you can call me <strong
+        >Mac</strong
+      >. During the day, I'm a Computer Science student at <a
+        href="https://pja.edu.pl/en">PJAIT in Warsaw</a
+      >. After hours, I'm an aficionado of all things motorsport and house
+      music.
     </p>
   </section>
   <section>
     <h3>My blog</h3>
     <p>
-      It serves as a means of documenting the development process and inner
-      workings of <a href="/projects">my applications</a>. Check out the latest
-      posts below:
+      Here I document the development of my personal projects and their inner
+      workings. Check out the latest posts below:
     </p>
-    <PostList limit={3} />
-  </section>
-  <section>
-    <h3>Like my work?</h3>
-    <p>
-      If so, make sure to follow me on <a
-        href="https://github.com/maciejpedzich"
-        target="_blank"
-        rel="noopener noreferrer">GitHub</a
-      >, <a
-        href="https://twitter.com/MaciejPedzich"
-        target="_blank"
-        rel="noopener noreferrer">Twitter</a
-      >, or <a rel="me" href="https://notacult.social/@macindahaus">Mastodon</a
-      >.
-    </p>
+    <PostList limit={5} />
   </section>
 </BaseLayout>
 
