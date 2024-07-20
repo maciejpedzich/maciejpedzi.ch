@@ -3,4 +3,4 @@
 
 export const SITE_TITLE = 'maciej pędzich';
 export const SITE_DESCRIPTION =
-  'frontend developer and motorsport fan in one person';
+  'cs student | motorsport fan | house music aficionado';
