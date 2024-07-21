@@ -18,7 +18,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const actualTitle = title === 'home' ? SITE_TITLE : `${title} | ${SITE_TITLE}`;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -40,6 +40,15 @@ const actualTitle = title === 'home' ? SITE_TITLE : `${title} | ${SITE_TITLE}`;
     <meta property="twitter:title" content={actualTitle} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.url)} />
+    {
+      import.meta.env.PROD && (
+        <script
+          defer
+          src="https://analytics.maciejpedzi.ch/script.js"
+          data-website-id="2c62b92b-6fde-4ee5-97ab-9c97d7a5a1b4"
+        />
+      )
+    }
   </head>
   <body>
     <Header />
