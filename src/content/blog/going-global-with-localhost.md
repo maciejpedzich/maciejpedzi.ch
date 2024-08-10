@@ -25,9 +25,49 @@ With that out of the way, let's dive into today's topic!
 
 ## Demo
 
-I go to maciejpedzi.ch, click the the analytics link in the header, show stats and move on. I click the Gitea link on my website's footer. Show off some repos' pages, but catsof.tech and six-degs-of-f1 in particular. For each repo click on the website link, briefly explain and demo the app.
+I go to maciejpedzi.ch, click the the analytics link in the header, show stats and move on. I click the Gitea link on my website's footer. Show off some repos' pages, but catsof.tech and six-degs-of-f1 in particular. For each repo click on the website link, briefly explain and show off the app.
 
-Then say: alright, it's cool and all, but some of you would probably like to ask...
+## My network's diagram and its quick breakdown
+
+Now let me show you a simplified diagram of my local network and all the components from _the outside world_ that ensure my server can be reached from all over the globe. Don't worry if you fail to understand certain bits of the diagram or my rundown through it, as we will come back to each part and concept and break it down in subsequent slides.
+
+<img src="/lbt-talk-net-graph.svg" alt="Diagram of my local network and components in the wide-area network that allow my home server to be reached from the outside world" loading="lazy" />
+
+### DNS Lookup
+
+So let's analyse what's going on here. When you open up your web browser and enter `https://maciejpedzi.ch`, the domain name (ie. the part after `https://`) needs to get converted to an IP address that your computer will then send its HTTP request to.
+
+That's when a <abbr>DNS</abbr> (Domain Name System) lookup is performed, where your computer asks a name server (typically run by your Internet Service Provider) which address corresponds to a given domain name. If your <abbr>ISP</abbr>'s name server doesn't know, it will pass your query on to another name server, which in my case should ultimately reach one of Cloudflare's name servers.
+
+### DDNS and address resolution
+
+For reasons I'll explain later, Cloudflare's name server will actually respond with another domain name that's quite long and difficult to remember. It's provided to me by a <abbr>DDNS</abbr> (Dynamic DNS) service hosted by a company called MikroTik, which is also the manufacturer of the router I use.
+
+This seemingly terrible domain name, however, will resolve to a proper IP address that will be sent back as an answer to the DNS query sent by your computer.
+
+### Going over the wire
+
+Now that your computer knows the address to reach out to, the HTTP request gets shipped as a bunch of <abbr>TCP</abbr> (Transmission Control Protocol) packets to ensure that the communication with my server will get established and that all the packets will be delivered in the right order (among other things).
+
+On a physical level, all that data gets transmitted over a bunch of fiber-optic cables lying underground (and possibly underwater if you're on the other end of the pond) as well as coaxial cables towards the _last mile_ before the destination.
+
+Our next stop in the journey is a little deviced called a _modem_, which stands for **Mod**ulator-**Dem**odulator. It's responsible for taking incoming signal from the coax wire to convert it to Ethernet and vice versa.
+
+### Router and Firewall
+
+The TCP packets are about to reach my server, but the IP address from the DNS lookup actually belongs to the router. Its job is to route the right packets to the right hosts on the local network.
+
+Of course, letting every single packet sent from the outside world (but also certain ones from the inside as well) go through with no control whatsoever is a recipe for disaster. This is where firewall comes into play to ensure secure packet flow based on a set of predetermined rules.
+
+### Switch (not the Nintendo one)
+
+All the devices in the local network are connected together via a device known as a _switch_. What's more, each port can be configured to have a specific VLAN tag, which effectively has a single switch act like multiple switches on different networks. I'll come back to this in the next slide.
+
+### Final stop - reverse proxy
+
+The HTTP request has finally reached my server. It runs a containerised _reverse proxy_, which is an HTTP(S) server that forwards incoming requests to appropriate containers based on criteria specified in the reverse proxy's configuration file. In most cases it's based on the `Host` header, so the domain name.
+
+For example: if `Host` is set to `maciejpedzi.ch`, the request will be forwarded to the container running my personal website. If `Host` set to `git.maciejpedzi.ch`, the request will be sent to my Gitea instance, and so on.
 
 ## Why bother?
 
