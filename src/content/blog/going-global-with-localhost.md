@@ -61,7 +61,7 @@ Of course, letting every single packet sent from the outside world (but also cer
 
 ### Switch (not the Nintendo one)
 
-All the devices in the local network are connected together via a device known as a _switch_. What's more, each port can be configured to have a specific VLAN tag, which effectively has a single switch act like multiple switches on different networks. I'll come back to this in the next slide.
+All the devices in the local network are connected together via a device known as a _switch_. What's more, each port can be configured to have a specific VLAN ID, which effectively has a single switch act like multiple switches on different networks. I'll come back to this in the next slide.
 
 ### Final stop - reverse proxy
 
@@ -69,7 +69,29 @@ The HTTP request has finally reached my server. It runs a containerised _reverse
 
 For example: if `Host` is set to `maciejpedzi.ch`, the request will be forwarded to the container running my personal website. If `Host` set to `git.maciejpedzi.ch`, the request will be sent to my Gitea instance, and so on.
 
-## Why bother?
+## Virtual Local Area Networks
+
+Now it's time for a more detailed breakdown of some of the concepts I've mentioned when going through my network's diagram. Let's start with the concept of a <abbr>VLAN</abbr> (Virtual Local Area Network).
+
+You might have an idea of what the <abbr>LAN</abbr> part of this acronym means, but what about the V? Virtual means that despite living on the same physical switch and Ethernet cables, the network is separated from others on a logical level by applying additional rules and configurations to the _true_ LAN's physical elements.
+
+One such property you can configure, is the aforementioned VLAN ID to assign specific port to a given VLAN. That ID is later added onto each outgoing packet as a little tag, so that it can reach computers on the same VLAN, but not the ones outside of it. Once it's determined that a packet can go through, that tag gets removed and packet continues on to its destination.
+
+Despite this limitation being imposed, it's still possible to make a service hosted on a machine in one VLAN available to computers outside this VLAN, while still keeping everything else isolated. This can be accomplished by creating appropriate firewall rules that will let through every packet going to a specific address and port via a specific transport protocol. That way I can make my websites accessible to other computers in my local network.
+
+Local network is the key phrase here, because introducing those firewall rules alone won't make my server reachable from the outside, but we'll cross that bridge when we get to it.
+
+## Side note on CIDR notation
+
+One thing you might have noticed on the diagram is a different IP addressing scheme for each VLAN. While you might be familiar with the 4 numbers separated by dots, the slash followed by another number might not seem familiar.
+
+This is what's known as the <abbr>CIDR</abbr> (Classles Inter-Domain Routing) notation. It's a shorthand way of writing an IP address range, where instead of writing _first address-last address_, you denote the first IP address in a given range and then the number of 1 bits from the left to the right that represent the subnet mask. The 1-bits in that mask mark the bits that stay the same across all addresses in a specified range written in binary.
+
+Let's take my homelab VLAN's range for example: `10.0.10.1/24`. The first address in the range is `10.0.10.1`, and the first 24 bits in the address stay the same. Since each one of four numbers cannot be greater than 255, it means that each part fits perfectly in 8 bits.
+
+Therefore, we can deduct that 24 divided by 8, so exactly first 3 numbers in each address in decimal stay the same. Only the rightmost number changes with each address, so the last IP address in this range is `10.0.10.255`.
+
+## Why bother with self-hosting?
 
 After all, there are plenty of <abbr>PaaS</abbr> (Platform-as-a-Service) providers such as Netlify, Vercel, Render, code hosting platforms like GitHub, and analytics services that offer cloud-hosted solutions. They offer easy integration with one another and your apps, so taking extra steps to get similar products up and running seems like extra work with no tangible benefits.
 
