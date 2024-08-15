@@ -103,11 +103,15 @@ There's also a very handy tool called Docker Compose, which enables us to create
 
 ## PaaS with dark theme and webhooks
 
+If you don't get the reference, go and watch [Brian's talk](https://www.youtube.com/watch?v=qes91LgPnro).
+
 Ok, so we've decided on the deployment method, but it would be so awesome to have a PaaS-like experience offered by the likes of Netlify, Vercel, Render, etc. to build and ship those containers using a nice web interface.
 
 Enter Coolify. It's an open-source <abbr>PaaS</abbr> (Platform-as-a-Service), which aims to bring that sort of quality experience to self-hosted deployment. Apart from a sleek dashboard, Coolify allows you to configure a webhook for each project, which will trigger a redeployment upon a push to your project's repo.
 
-We can talk all we want, but making ship happen is the real deal. _Here I show the deployments tab of my personal website and a GitHub webhook deliveries page. I show my website's Dockerfile, explain what's going on there, set this article's draft field to false, push a commit and switch back to the webhook deliveries page and analyse the payload. Then I go back to the Coolify dashboard and go gover the deployment logs_.
+We can talk all we want, but making ship happen is the real deal.
+
+_I show the deployments tab of my personal website and a GitHub webhook deliveries page. I show my website's Dockerfile, explain what's going on there, set this article's draft field to false, push a commit and switch back to the webhook deliveries page and analyse the payload. Then I go back to the Coolify dashboard and go gover the deployment logs_.
 
 ## Why bother with self-hosting?
 
