@@ -51,7 +51,7 @@ Now that your computer knows the address to reach out to, the HTTP request gets 
 
 On a physical level, all that data gets transmitted over a bunch of fiber-optic cables lying underground (and possibly underwater if you're on the other end of the pond) as well as coaxial cables towards the _last mile_ before the destination.
 
-Our next stop in the journey is a little deviced called a _modem_, which stands for **Mod**ulator-**Dem**odulator. It's responsible for taking incoming signal from the coax wire to convert it to Ethernet and vice versa.
+Our next stop in the journey is a little deviced called a _modem_, which stands for **Mo**dulator-**Dem**odulator. It's responsible for taking incoming signal from the coax wire to convert it to Ethernet and vice versa.
 
 ### Router and Firewall
 
@@ -65,9 +65,9 @@ All the devices in the local network are connected together via a device known a
 
 ### Final stop - reverse proxy
 
-The HTTP request has finally reached my server. It runs a containerised _reverse proxy_, which is an HTTP(S) server that forwards incoming requests to appropriate containers based on criteria specified in the reverse proxy's configuration file. In most cases it's based on the `Host` header, so the domain name.
+The HTTP request has finally reached my server. It runs a containerised _reverse proxy_, which forwards incoming requests to appropriate containers based on criteria specified in the reverse proxy's configuration file. In most cases it's based on the `Host` header, so the domain name.
 
-For example: if `Host` is set to `maciejpedzi.ch`, the request will be forwarded to the container running my personal website. If `Host` set to `git.maciejpedzi.ch`, the request will be sent to my Gitea instance, and so on.
+For example: if `Host` is set to `maciejpedzi.ch`, the request will be forwarded to the container running my personal website. If `Host` is set to `git.maciejpedzi.ch`, the request will be sent to my Gitea instance, and so on.
 
 ## Virtual Local Area Networks
 
@@ -85,15 +85,33 @@ Local network is the key phrase here, because introducing those firewall rules a
 
 One thing you might have noticed on the diagram is a different IP addressing scheme for each VLAN. While you might be familiar with the 4 numbers separated by dots, the slash followed by another number might not seem familiar.
 
-This is what's known as the <abbr>CIDR</abbr> (Classles Inter-Domain Routing) notation. It's a shorthand way of writing an IP address range, where instead of writing _first address-last address_, you denote the first IP address in a given range and then the number of 1 bits from the left to the right that represent the subnet mask. The 1-bits in that mask mark the bits that stay the same across all addresses in a specified range written in binary.
+This is what's known as the <abbr>CIDR</abbr> (Classles Inter-Domain Routing) notation. It's a shorthand way of writing an IP address range, where instead of using _first address-last address_, you denote the first IP address in a given range and then the number of 1 bits from the left to the right that represent the subnet mask. The 1-bits in that mask mark the bits that stay the same across all addresses in a specified range written in binary.
 
 Let's take my homelab VLAN's range for example: `10.0.10.1/24`. The first address in the range is `10.0.10.1`, and the first 24 bits in the address stay the same. Since each one of four numbers cannot be greater than 255, it means that each part fits perfectly in 8 bits.
 
 Therefore, we can deduct that 24 divided by 8, so exactly first 3 numbers in each address in decimal stay the same. Only the rightmost number changes with each address, so the last IP address in this range is `10.0.10.255`.
 
+## Docker containers
+
+Now that we've covered VLANs and CIDR notation, let's talk about Docker containers.
+
+They serve a means of packaging applications along with their entire dependency trees and environment variables that are required for said app to work properly. Docker containers share the resources of the host they're running on, but they're isolated from that machine and other containers.
+
+Using containers allows us to avoid potential dependency conflicts, where two apps use a different version of the same runtime or a library. They also allow us to mitigate the potential issue of having the same app/component using the same configuration parameters set to different values.
+
+There's also a very handy tool called Docker Compose, which enables us to create a special YAML file to define a _tech stack_ of multiple containers working together within a single project. Yes, I've just mentioned that containers run in separation from one another, but it doesn't mean it's impossible for them to communicate. We'll talk about it in more detail once it's time to cover the reverse proxy.
+
+## PaaS with dark theme and webhooks
+
+Ok, so we've decided on the deployment method, but it would be so awesome to have a PaaS-like experience offered by the likes of Netlify, Vercel, Render, etc. to build and ship those containers using a nice web interface.
+
+Enter Coolify. It's an open-source <abbr>PaaS</abbr> (Platform-as-a-Service), which aims to bring that sort of quality experience to self-hosted deployment. Apart from a sleek dashboard, Coolify allows you to configure a webhook for each project, which will trigger a redeployment upon a push to your project's repo.
+
+We can talk all we want, but making ship happen is the real deal. _Here I show the deployments tab of my personal website and a GitHub webhook deliveries page. I show my website's Dockerfile, explain what's going on there, set this article's draft field to false, push a commit and switch back to the webhook deliveries page and analyse the payload. Then I go back to the Coolify dashboard and go gover the deployment logs_.
+
 ## Why bother with self-hosting?
 
-After all, there are plenty of <abbr>PaaS</abbr> (Platform-as-a-Service) providers such as Netlify, Vercel, Render, code hosting platforms like GitHub, and analytics services that offer cloud-hosted solutions. They offer easy integration with one another and your apps, so taking extra steps to get similar products up and running seems like extra work with no tangible benefits.
+After all, there are plenty of <abbr>PaaS</abbr> providers such as Netlify, Vercel, Render, code hosting platforms like GitHub, and analytics services that offer cloud-hosted solutions. They offer easy integration with one another and your apps, so taking extra steps to get similar products up and running seems like extra work with no tangible benefits.
 
 I've come up with 5 reasons why you too might be interested in self-hosting some of those apps and services:
 
