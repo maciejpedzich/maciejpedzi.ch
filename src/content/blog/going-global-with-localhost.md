@@ -25,7 +25,7 @@ With that out of the way, let's dive into today's topic!
 
 ## Demo
 
-I go to maciejpedzi.ch, click the the analytics link in the header, show stats and move on. I click the Gitea link on my website's footer. Show off some repos' pages, but catsof.tech and six-degs-of-f1 in particular. For each repo click on the website link, briefly explain and show off the app.
+_I go to maciejpedzi.ch, click the the analytics link in the header, show stats and move on. I click the Gitea link on my website's footer. Show off some repos' pages, but catsof.tech and six-degs-of-f1 in particular. For each repo click on the website link, briefly explain and show off the app_.
 
 ## My network's diagram and its quick breakdown
 
@@ -71,7 +71,7 @@ For example: if `Host` is set to `maciejpedzi.ch`, the request will be forwarded
 
 ## Virtual Local Area Networks
 
-Now it's time for a more detailed breakdown of some of the concepts I've mentioned when going through my network's diagram. Let's start with the concept of a <abbr>VLAN</abbr> (Virtual Local Area Network).
+Let's start with the concept of a <abbr>VLAN</abbr> (Virtual Local Area Network).
 
 You might have an idea of what the <abbr>LAN</abbr> part of this acronym means, but what about the V? Virtual means that despite living on the same physical switch and Ethernet cables, the network is separated from others on a logical level by applying additional rules and configurations to the _true_ LAN's physical elements.
 
@@ -81,7 +81,7 @@ Despite this limitation being imposed, it's still possible to make a service hos
 
 Local network is the key phrase here, because introducing those firewall rules alone won't make my server reachable from the outside, but we'll cross that bridge when we get to it.
 
-## Side note on CIDR notation
+## Sidequest: CIDR notation
 
 One thing you might have noticed on the diagram is a different IP addressing scheme for each VLAN. While you might be familiar with the 4 numbers separated by dots, the slash followed by another number might not seem familiar.
 
@@ -99,7 +99,7 @@ They serve a means of packaging applications along with their entire dependency 
 
 Using containers allows us to avoid potential dependency conflicts, where two apps use a different version of the same runtime or a library. They also allow us to mitigate the potential issue of having the same app/component using the same configuration parameters set to different values.
 
-There's also a very handy tool called Docker Compose, which enables us to create a special YAML file to define a _tech stack_ of multiple containers working together within a single project. Yes, I've just mentioned that containers run in separation from one another, but it doesn't mean it's impossible for them to communicate. We'll talk about it in more detail once it's time to cover the reverse proxy.
+There's also a very handy tool called Docker Compose, which enables us to create a special YAML file to define a _tech stack_ of multiple containers working together within a single project. Yes, I've just mentioned that containers run in separation from one another, but it doesn't mean it's impossible for them to communicate. We'll talk about it in more detail soon, just bear with me.
 
 ## PaaS with dark theme and webhooks
 
@@ -109,9 +109,37 @@ Ok, so we've decided on the deployment method, but it would be so awesome to hav
 
 Enter Coolify. It's an open-source <abbr>PaaS</abbr> (Platform-as-a-Service), which aims to bring that sort of quality experience to self-hosted deployment. Apart from a sleek dashboard, Coolify allows you to configure a webhook for each project, which will trigger a redeployment upon a push to your project's repo.
 
-We can talk all we want, but making ship happen is the real deal.
+_I show the deployments tab of my personal website and a GitHub webhook deliveries page. I show my website's Dockerfile, explain what's going on there, set this article's draft field to false, push a commit and switch back to the webhook deliveries page and analyse the payload. Then I go back to the Coolify dashboard and go over the deployment logs._.
 
-_I show the deployments tab of my personal website and a GitHub webhook deliveries page. I show my website's Dockerfile, explain what's going on there, set this article's draft field to false, push a commit and switch back to the webhook deliveries page and analyse the payload. Then I go back to the Coolify dashboard and go gover the deployment logs_.
+## Docker networks
+
+Do you remember how I've mentioned that despite them running in isolation from other containers, it's still possible for them to talk to each other and the outside world? This is thanks to Docker networks.
+
+By default, each network makes use of a software bridge, which is responsible for moving traffic between appropriate network segments. The bridge is the key to enabling containers in the same network to communicate, whereas additional firewall rules on the host machine ensure containers connected to different networks can't do that.
+
+Apart from the bridge, Docker networks also come with their own DNS servers, which allow you to use the names of containers connected to a given network. This comes in very handy when referring to a specific service in code or in an environment variable somewhere, because just like with _the real DNS_, it's much easier to memorise a distinct name than a series of seemingly random numbers.
+
+One last thing you need to know about Docker networks is that you can bind a port on the host machine to a port on a specific container, so that you can make that port reachable directly from the Docker host.
+
+My approach to organising Docker networks is to have each container for the web frontend of a given app be connected to the Docker network used by Coolify to deploy its projects, and have each backend container for that app be a part of a dedicated Docker network (including the web frontend so that it can talk to these containers).
+
+## Reverse proxy
+
+Alright, so we've got a bunch of containers up and running in their respective networks. You might think that the next order of business is binding some arbitrary host ports to ports used by the containerised web apps. It would be convenient to use the same ports for both host and container.
+
+But what if two services use the same port and you can't change it on container's end? Well, you could just use a different port on the host and call it a day, right? In my case... not exactly, because once it came down to actually exposing all these apps to the outside world, not only would I have to manually generate an SSL certificate for every project, but I'd also effectively force anyone wanting to visit a certain website I host to append the right port number to the domain name.
+
+So if I were to expose my personal website on port 3000, the URL you'd need to type in to access it would be `https://maciejpedzi.ch:3000`. If you want to omit the port number in the URL, you have to use port 443 instead. But you'd soon run into the same issue of multiple apps trying to use the same host port at once - that's impossible.
+
+The solution to that problem requires having a server that forwards incoming requests to appropriate apps based on something like the domain name. My personal website should be reachable via `maciejpedzi.ch`, my Gitea instance via `git.maciejpedzi.ch`, my Umami analytics platform via `analytics.maciejpedzi.ch`, and so on. It would also be nice if that server generated all the necessary SSL certificates as more services go live.
+
+You've probably seen it coming by now, but that's pretty much how a reverse proxy works in a nutshell. There are plenty of web servers that can be configured to act like one, such as Nginx, Traefik, or Caddy. It's the latter that I've ended up using for my apps, mainly due to the ease and flexibility of configuration but also a wide range of modules for extending Caddy's feature set.
+
+_Go over the Caddyfile, acknowledge the global ACME DNS option, but explain it in the next section. Show the log snippet, no public IPs except GH webhooks and a bunch of proxy rules_.
+
+## Automatic HTTPS and DDNS
+
+todo
 
 ## Why bother with self-hosting?
 
