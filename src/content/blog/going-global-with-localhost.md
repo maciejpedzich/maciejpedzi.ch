@@ -81,11 +81,11 @@ Despite this limitation being imposed, it's still possible to make a service hos
 
 Local network is the key phrase here, because introducing those firewall rules alone won't make my server reachable from the outside, but we'll cross that bridge when we get to it.
 
-## Sidequest: CIDR notation
+## Side note: CIDR notation
 
 One thing you might have noticed on the diagram is a different IP addressing scheme for each VLAN. While you might be familiar with the 4 numbers separated by dots, the slash followed by another number might not seem familiar.
 
-This is what's known as the <abbr>CIDR</abbr> (Classles Inter-Domain Routing) notation. It's a shorthand way of writing an IP address range, where instead of using _first address-last address_, you denote the first IP address in a given range and then the number of 1 bits from the left to the right that represent the subnet mask. The 1-bits in that mask mark the bits that stay the same across all addresses in a specified range written in binary.
+This is what's known as the <abbr>CIDR</abbr> (ClaTLSes Inter-Domain Routing) notation. It's a shorthand way of writing an IP address range, where instead of using _first address-last address_, you denote the first IP address in a given range and then the number of 1 bits from the left to the right that represent the subnet mask. The 1-bits in that mask mark the bits that stay the same across all addresses in a specified range written in binary.
 
 Let's take my homelab VLAN's range for example: `10.0.10.1/24`. The first address in the range is `10.0.10.1`, and the first 24 bits in the address stay the same. Since each one of four numbers cannot be greater than 255, it means that each part fits perfectly in 8 bits.
 
@@ -127,23 +127,59 @@ My approach to organising Docker networks is to have each container for the web 
 
 Alright, so we've got a bunch of containers up and running in their respective networks. You might think that the next order of business is binding some arbitrary host ports to ports used by the containerised web apps. It would be convenient to use the same ports for both host and container.
 
-But what if two services use the same port and you can't change it on container's end? Well, you could just use a different port on the host and call it a day, right? In my case... not exactly, because once it came down to actually exposing all these apps to the outside world, not only would I have to manually generate an SSL certificate for every project, but I'd also effectively force anyone wanting to visit a certain website I host to append the right port number to the domain name.
+But what if two services use the same port and you can't change it on container's end? Well, you could just use a different port on the host and call it a day, right? In my case... not exactly, because once it came down to actually exposing all these apps to the outside world, not only would I have to manually generate an TLS certificate for every project, but I'd also effectively force anyone wanting to visit a certain website I host to append the right port number to the domain name.
 
 So if I were to expose my personal website on port 3000, the URL you'd need to type in to access it would be `https://maciejpedzi.ch:3000`. If you want to omit the port number in the URL, you have to use port 443 instead. But you'd soon run into the same issue of multiple apps trying to use the same host port at once - that's impossible.
 
-The solution to that problem requires having a server that forwards incoming requests to appropriate apps based on something like the domain name. My personal website should be reachable via `maciejpedzi.ch`, my Gitea instance via `git.maciejpedzi.ch`, my Umami analytics platform via `analytics.maciejpedzi.ch`, and so on. It would also be nice if that server generated all the necessary SSL certificates as more services go live.
+The solution to that problem requires having a server that forwards incoming requests to appropriate apps based on something like the domain name. My personal website should be reachable via `maciejpedzi.ch`, my Gitea instance via `git.maciejpedzi.ch`, my Umami analytics platform via `analytics.maciejpedzi.ch`, and so on. It would also be nice if that server generated all the necessary TLS certificates as more services go live.
 
 You've probably seen it coming by now, but that's pretty much how a reverse proxy works in a nutshell. There are plenty of web servers that can be configured to act like one, such as Nginx, Traefik, or Caddy. It's the latter that I've ended up using for my apps, mainly due to the ease and flexibility of configuration but also a wide range of modules for extending Caddy's feature set.
 
-_Go over the Caddyfile, acknowledge the global ACME DNS option, but explain it in the next section. Show the log snippet, no public IPs except GH webhooks and a bunch of proxy rules_.
+_Go over the Caddyfile, explain the global ACME DNS option. Show the log snippet, no public IPs except GH webhooks and a bunch of proxy rules_.
 
-## Automatic HTTPS and DDNS
+## Dynamic DNS
 
-todo
+Alright, so we've got a reverse proxy configured and all, but it's not enough to ensure that the right subdomains will point to the right websites. We need to take care of a proper DNS setpu first.
 
-## Why bother with self-hosting?
+So you'd think that I just need to update your domain name's DNS records to point the apex domain and the wildcard subdomain to the IP address of the router and problem solved, right? This would've been the case if my router had a static IP address.
 
-After all, there are plenty of <abbr>PaaS</abbr> providers such as Netlify, Vercel, Render, code hosting platforms like GitHub, and analytics services that offer cloud-hosted solutions. They offer easy integration with one another and your apps, so taking extra steps to get similar products up and running seems like extra work with no tangible benefits.
+Unfortunately, I've got a dynamic one assigned to my router. This means that once it changes after I've set up my domain name to point to the previous IP, my website becomes unreachable until I update the DNS records to point to my router's new IP, and the cycle continues.
+
+Fortunately though, this process is dead simple to automate by employing a <abbr>DDNS</abbr> (Dynamic DNS) service, which gives you a free domain name and periodically updates its DNS records to point to the router's public IP.
+
+I use the DDNS service provided by MikroTik to its router owners like myself, but if you don't have a MikroTik router or if your router manufacturer doesn't provide their own service, you can use an external one such as [DuckDNS](https://www.duckdns.org), [No-IP](https://www.noip.com), or [ClouDNS](https://www.cloudns.net/index/lang/en). If you use Cloudflare's DNS, you can set up an automated script to send a request to their API to automatically update appropriate DNS records as well.
+
+Even though I use Cloudflare's name servers for `maciejpedzi.ch`, I've decided to set up a `CNAME` record for the apex domain and all subdomains that maps to the domain name provided by MikroTik's DDNS service, because I've initially wanted to use Namecheap's DNS services (since I've registered `maciejpedzi.ch` with them), but I've opted to use Cloudflare's name servers, because they've made it easier for me to use Caddy to automatically generate all the publicly-trusted TLS certificates for my apps.
+
+## Port forwarding
+
+As we've established, the router's got a public IP address and it's responsible for establishing connections with the outside world on behalf of all devices in the local network, ensuring that the right reply gets to the right requester. But what about incoming connections? By default, the router is configured to reject such connection attempts, because it doesn't know which device on the local network should handle them.
+
+Enter port forwarding. It's a means of telling the router to, as the name suggests, forward incoming connections to certain hosts on the local network for specific ports. Therefore I can tell my router to forward ports 80 and 443 using the TCP protocol to the equivalent ports and the IP address of my home server, so that I can well and truly have it go global.
+
+Of course, we can also use port forwarding for services using other transport protocols like UDP. This is the case for my WireGuard VPN running directly on the router itself, in which case I need to set the router's local IP as the destination.
+
+## Split-horizon DNS
+
+Technically speaking, we've done everything to ensure the home server is reachable from external networks... but what if told you that, quite ironically, trying to access it from within the local network might not work?
+
+Imagine I have my daily driver with a local IP set to `10.0.20.5`, my server's local IP is `10.0.10.2`, and I want to visit `https://maciejpedzi.ch` on the former. DNS lookup for that domain name will return my router's public IP address, let's say `79.191.35.174`.
+
+My daily driver will send a packet to the router, because it's trying to reach out to an IP that's clearly outside the local network. But then the router will realise that the destination points to its own public IP address and that it's got a port forwarding rule specified for port 443. Therefore the router will change the destination address to the server's local IP address and send the packet there.
+
+However, the source address specified in that packet is still set to the daily driver's local IP. So when my server sends a response packet to the router, it will have `10.0.20.5` set as the destination. Once the router receives that response packet, it will realise that the recipient is in the same local network as the sender.
+
+Here comes the problem - the daily driver is expecting a response packet from the router's public IP, but then all of a sudden it gets a packet from the server's local IP. That packet will get dropped, since the daily driver is not expecting one from the latter, but the former.
+
+There are two approaches that can be taken to resolve this issue. One involves configuring the router to allow what's known as _NAT hairpining_. If enabled, the router will make sure to take all the packets sent to its local IP address and replace not only the target address with the home server's local IP, but also the sender's IP with the router's own local IP. In that scenario, once the router receives a response packet from the server, it will make sure to send it back to the sender, which will see a response coming from the router's public IP and thus accept the packet.
+
+The other solution involves a _split-horizon DNS_ (AKA _split DNS_, _split-view DNS_, _split-brain DNS_) setup, which requires a local DNS server with records for my apex domain and a wildcard subdomain that point to the server's local IP. That way my daily driver will be expecting a response from `10.0.10.2`, and once that packet reaches the router, it won't perform any sort of port forwarding, since the destination is set to an address within the local network. So once a response packet finds its way back to the daily driver, it will get accepted as it's anticipated to be delivered.
+
+Although both solutions are rather straightforward to set up on my MikroTik router, I've decided to adopt the _split DNS_ approach, because it allows my services to see the true local IPs from which I access various services, but also because I've generally seen it get recommended over _NAT hairpining_ on various forum threads (possibly for the reasons I've just stated myself).
+
+## Pros of self-hosting
+
+But why bother going to all these lengths when there are plenty of <abbr>PaaS</abbr> providers such as Netlify, Vercel, Render, code hosting platforms like GitHub, and analytics services that offer cloud-hosted solutions? They offer easy integration with one another and your apps, so taking extra steps to get similar products up and running seems like extra work with no tangible benefits.
 
 I've come up with 5 reasons why you too might be interested in self-hosting some of those apps and services:
 
@@ -176,3 +212,11 @@ The e-waste landfills already occupy way too much space than they should, so ins
 And last but not least, perhaps you're just curious as to how to get a PaaS-like deployment setup to work on a spare computer and how to configure your local network to safely expose such computer to the outside world. After all - curiosity might have killed the cat, but as far as I'm aware, it hasn't killed a server (yet).
 
 By putting this setup together, you'll gain basic yet valuable skills in network engineering and DevOps, which may help your job-hunting prospects in the future.
+
+## Wrap-up and acknowledgements
+
+Thank you for reading this script all the way to the end! I highly recommend you check out the talk video I've linked to above, since it features more graphs, slides, my voice, my face, all that good stuff.
+
+I'd also like to give a massive shout-out to [Brian Morrison](https://brianmorrison.me) for inspiring me to set up a homelab in the first place, but also his [fullstack.chat](https://fullstack.chat) Discord community for  providing a space for me to document my setup shenanigans live, but more importantly, showing support and encouragement to keep pushing forward despite various setbacks I've had to face with what I consider probably my most important project to date.
+
+Take care!
