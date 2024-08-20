@@ -1,7 +1,7 @@
 ---
 title: going global with localhost
 description: "This is how I've set up my local network and machine to safely expose my personal projects and other services to the outside world"
-pubDate: 2024-08-07T16:49:34.239Z
+pubDate: 2024-09-23T15:00:00.00Z
 draft: true
 categories:
   - project homelabtop
@@ -11,7 +11,7 @@ tags:
   - notes
 ---
 
-This post is a script for a talk I gave for James Quick's [Learn Build Teach Discord](https://discord.gg/vM2bagU) on DATE TBA. If you'd like to watch that talk instead of reading its script, then [here's the VOD link](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
+This post is a script for a talk I gave for James Quick's [Learn Build Teach Discord](https://discord.gg/vM2bagU) on 23 September 2024. If you'd like to watch that talk instead of reading its script, then [here's the VOD link](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
 
 ## Introduction
 
