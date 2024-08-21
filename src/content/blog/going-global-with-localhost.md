@@ -213,6 +213,95 @@ And last but not least, perhaps you're just curious as to how to get a PaaS-like
 
 By putting this setup together, you'll gain basic yet valuable skills in network engineering and DevOps, which may help your job-hunting prospects in the future.
 
+## Cons of self-hosting
+
+If you've had your heart set on getting your own homelab up and running this entire time, you might want to think again! Although I've just mentioned plenty of strengths of self-hosting and opportunities it may provide, it comes with a set of trade-offs that could potentially outweigh all the benefits, depending on your use-case and needs.
+
+### You’re in charge of security and maintenance
+
+This is possibly the biggest trade-off you make when opting to use your own hardware and infrastructure instead of a _proper_ <abbr>PaaS</abbr> or <abbr>IaaS</abbr> (Infrastructure-as-a-Service). The whole responsibility of ensuring that your network appliances, your server(s), the services you're running and their dependencies are all kept up-to-date, but also implementing appropriate security measures falls on your shoulders.
+
+Failing to do so makes all the aforementioned components increasingly more susceptible to various attacks as time passes. If one such attack gets carried out successfully, the consequences vary from as mild as getting your website defaced to as severe as the hacker gaining full control of your machine(s).
+
+You also have to be wary of hosting services that allow users to submit text, images, videos, etc. because apart from malicious users trying to exploit potential holes in the submission mechanism, they could also try and abuse that platform to post hateful or explicit content.
+
+Speaking of which, I'd like bring up a story of me _hacking_ one of the web development industry's heavyweights to showcase just how much power and room for abuse I've gained with very little effort.
+
+## Bonus story: "hacking" Wes Bos
+
+Let me preface this section by stating that my goal is not to dunk on Wes or claim that I'm somehow a more skilled developer than him (I'm anything but). I only want to tell a cautionary tale of exposing services and IoT devices with lax or nonexistent security measures in place.
+
+Chances are you've heard of [Wes Bos](https://wesbos.com) before. You might have taken his [JavaScript30 course](https://javascript30.com), listened to an episode of his [Syntax podacst](https://syntax.fm), or given him a [follow on Twitter](https://twitter.com/wesbos) (I'm never calling it X, sorry not sorry).
+
+Let's rewind the calendar to 19 August 2024. I just so happened to be casually wasting my time on that site when I noticed [this tweet from Wes](https://x.com/wesbos/status/1825559690216132726). If you can't access the link, it said:
+
+> This might be a bad idea but go to [local.wesbos.com](http://local.wesbos.com) and try take your photo. It should print to my printer
+
+My boredom was dead on the spot, because the curious yet mischievious George in my head just had to find a way to get this printer to repeatedly spit out an image of my choice. But what kind of image did I ultimately end up submitting? In hindsight, I probably should've rolled with a somewhat more tasteful joke, but hindisght is 20/20 and I'm still yet to invent an _undo past_ button.
+
+Anyway, past me concluded that the perfect choice for a photo to send would be a Dick pic, but not just any ordinary Dick. We're talking the 46th vice president of the USA, Dick Cheney. Why exactly him? I guess he was the first Dick to come to my mind at that moment.
+
+I had a really narrow time frame to work with, but that's when my vast experience in doing homework right before the deadline hits came in clutch to allow me to reverse-engineer the photo submission mechanism and produce the following script to send a Dick pic just as long as the server was up.
+
+```js
+const { readFileSync } = require('fs');
+const { setTimeout } = require('timers/promises');
+
+const dickPic = 'data:image/png;base64,'
+  + Buffer.from(readFileSync('dick.png')).toString('base64');
+
+async function sendDickPic() {
+  let ok = true;
+
+  while (ok) {
+    await setTimeout(5000);
+
+    const res = await fetch('https://local.wesbos.com/', {
+      method: 'POST',
+      body: JSON.stringify([dickPic]),
+      headers: {
+        'Next-Action': '6ee7743577654da9ae36dc07718e86a493377b1d',
+        'Next-Router-State-Tree': '%5B%22%22%2C%7B%22children%22%3A%5B%22__PAGE__%22%2C%7B%7D%2C%22%2F%22%2C%22refresh%22%5D%7D%2Cnull%2Cnull%2Ctrue%5D'
+      }
+    });
+    const resText = await res.text();
+
+    if (res.ok) {
+      console.log('DICK PIC SENT!');
+    } else {
+      console.log(res.status);
+    }
+
+    console.log(resText);
+    ok = res.ok;
+  }
+}
+
+sendDickPic();
+```
+
+The hardest part was figuring out that the `Next-Action` and `Next-Router-State-Tree` headers were necessary to trigger the bit of server-side code responsible for interfacing with the thermal printer. If you were to omit them, you'd get a `200 OK` HTTP status code, but also a generic _Not Found_ page in the response body. That's why I decided to log it in my script.
+
+At any rate, I ran the script and after 5 seconds, there was a success message along with the expected JSON response from the API endpoint. About a minute or so later, the handler got disabled and it only took another minute for Wes to send [a follow-up tweet](https://x.com/wesbos/status/1825568577040093426). And sure enough, there were a handful of Dick pics being printed as he was recording!
+
+Think about the gravity of this situation for a second. I could've instructed the printer to print... anything. From cute dogs and cats to the most disgusting and obscene images you could think of, all thanks to a few lines of code.
+
+Some of you may say that I'm overexaggerating, and that Wes was certainly going to shut the site down after a few minutes regardless. However, it doesn't change the fact that I was able to gain this level of control over a _dumb_ device, simply because an online service for interacting with it got published with nothing in the way of preventing abuse.
+
+The server never verified whether each request was coming from a legitimate or a malicious user, but also whether the image was appropriate or not. I'm also confident there was no rate-limiting either, which means I could theoretically get rid of the `setTimeout` call in my script to make it more annoying if I wanted to.
+
+Of course, I'm not implying that Wes wouldn't implement any of the aforementioned security measures if this was meant to be a legitimate app of sorts. I'm also not saying that my server is immune to every cyber attack in the book just by the virtue of not accepting user-submitted content and setting up a few firewall rules.
+
+But the moment you expose a means of communicating with your device, you can be certain that someone **can** and **will** at the very least attempt to abuse it. It doesn't matter if it's a random guy from Eastern Europe bored out of his mind or a state-sponsored hacker group looking to recruit more zombies into their botnet.
+
+I reckon that the following fragment of a rap song by [Dual Core](https://dualcoremusic.bandcamp.com) titled ["All The Things"](https://dualcoremusic.bandcamp.com/track/all-the-things) sums up the story and its moral best:
+
+> Regardless of the hardware, service, or encoding  
+> Connect it to the internet  
+> And someone's gonna own it
+
+(The whole track is amazing, go buy it if you can)
+
 ## Wrap-up and acknowledgements
 
 Thank you for reading this script all the way to the end! I highly recommend you check out the talk video I've linked to above, since it features more graphs, slides, my voice, my face, all that good stuff.
