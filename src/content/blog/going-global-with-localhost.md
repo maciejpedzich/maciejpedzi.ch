@@ -290,7 +290,7 @@ Some of you may say that I'm overexaggerating, and that Wes was certainly going 
 
 The server never verified whether each request was coming from a legitimate or a malicious user, but also whether the image was appropriate or not. I'm also confident there was no rate-limiting either, which means I could theoretically get rid of the `setTimeout` call in my script to make it more annoying if I wanted to.
 
-Of course, I'm not implying that Wes wouldn't implement any of the aforementioned security measures if this was meant to be a legitimate app of sorts. I'm also not saying that my server is immune to every cyber attack in the book just by the virtue of not accepting user-submitted content and setting up a few firewall rules.
+Of course, I'm not implying that Wes wouldn't implement any of the aforementioned security measures if this was meant to be a production-ready app. I'm also not saying that my server is immune to every cyber attack in the book just by the virtue of not accepting user-submitted content and setting up a few firewall rules.
 
 But the moment you expose a means of communicating with your device, you can be certain that someone **can** and **will** at the very least attempt to abuse it. It doesn't matter if it's a random guy from Eastern Europe bored out of his mind or a state-sponsored hacker group looking to recruit more zombies into their botnet.
 
