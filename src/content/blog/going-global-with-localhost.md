@@ -215,7 +215,33 @@ By putting this setup together, you'll gain basic yet valuable skills in network
 
 ## Cons of self-hosting
 
-If you've had your heart set on getting your own homelab up and running this entire time, you might want to think again! Although I've just mentioned plenty of strengths of self-hosting and opportunities it may provide, it comes with a set of trade-offs that could potentially outweigh all the benefits, depending on your use-case and needs.
+If you've had your heart set on getting your own homelab up and running this entire time, you might want to think again! Although I've just mentioned plenty of strengths of self-hosting and opportunities it may provide, it comes with a set of trade-offs that could potentially outweigh all the benefits depending on your use-case and needs.
+
+### Initial learning curve
+
+I'm fairly confident that some of you find certain terms and concepts I've touched on throughout this presentation confusing and intimidating. If you've only dabbled with the dev side of things and this is your first time diving a little deeper into the networking world, you shouldn't feel stupid because you didn't get something on your first try.
+
+Having a fundamental knowledge of the most important networking components and protocols used by web browsers and applications is enough for a strictly dev role, so you shouldn't force yourself to learn about things you'll most likely never use in your day-to-day job.
+
+Though I'm pretty sure the same applies to... well, any uncharted teritory of knowledge. Some ideas seem impossible to understand at first, but as you learn more and more about them, they become second nature. As the saying goes - practice makes perfect.
+
+### Potentially more expensive than a subscription
+
+If you don't have a spare computer lying around or if you'd need to buy a lot hard drives for a <abbr>NAS</abbr> (Network-Attached Storage) or additional computers to accomodate your needs, you could find yourself spending significantly more money that you otherwise would using a subscription-based cloud service.
+
+When it comes to buying a dedicated machine, sometimes you can come across retired server equipment for relatively cheap, let alone old laptops and PCs. But once again, before you go all-in on self-hosting, consider all your options, especially in terms of their respective cost.
+
+### Poor scalability (both up and down)
+
+When you use cloud-based hosting solutions, you're generally billed for a specific amount of resources your app uses. If you receive less traffic a given month, it's totally reasonable for you to expect to pay less money for less computing power and vice versa.
+
+With self-hosting, you generally don't have the luxury of dynamically allocating more resources as required at any given moment or if you've simply underestimated how much traffic your site would typically receive. Conversely, it's likely that you might overestimate it and find yourself sitting on too much RAM or disk space than you have idea to allocate it beyond what your existing services already consume.
+
+### Inconsistent loading times across the globe
+
+Most of the popular <abbr>PaaS</abbr> providers allow you to deploy your app to their Edge <abbr>CDN</abbr> (Content Delivery Network), which essentially means multiple servers scattered around the world, where each server is meant to be accessed by users who are geographically closest to it and thus ensure fast loading times for everyone no matter where they access your website.
+
+Unless you also happen to own a bunch of computers distributed across the globe or have the power to break the laws of physics, you can't ensure equally fast loading times for everyone, especially those who live thousands of kilometers away from where your server is located.
 
 ### You’re in charge of security and maintenance
 
@@ -231,7 +257,7 @@ Speaking of which, I'd like bring up a story of me _hacking_ one of the web deve
 
 Let me preface this section by stating that my goal is not to dunk on Wes or claim that I'm somehow a more skilled developer than him (I'm anything but). I only want to tell a cautionary tale of exposing services and IoT devices with lax or nonexistent security measures in place.
 
-Chances are you've heard of [Wes Bos](https://wesbos.com) before. You might have taken his [JavaScript30 course](https://javascript30.com), listened to an episode of his [Syntax podacst](https://syntax.fm), or given him a [follow on Twitter](https://twitter.com/wesbos) (I'm never calling it X, sorry not sorry).
+Chances are you've heard of [Wes Bos](https://wesbos.com) before. You might have taken his [JavaScript30 course](https://javascript30.com), listened to an episode of his [Syntax podacst](https://syntax.fm), or given him a [follow on Twitter](https://twitter.com/wesbos) (I'm never calling it X) just like the other 385 **thousand** people and bots.
 
 Let's rewind the calendar to 19 August 2024. I just so happened to be casually wasting my time on that site when I noticed [this tweet from Wes](https://x.com/wesbos/status/1825559690216132726). If you can't access the link, it said:
 
@@ -250,7 +276,7 @@ const { setTimeout } = require('timers/promises');
 const dickPic = 'data:image/png;base64,'
   + Buffer.from(readFileSync('dick.png')).toString('base64');
 
-async function sendDickPic() {
+async function sendDickPics() {
   let ok = true;
 
   while (ok) {
@@ -277,24 +303,24 @@ async function sendDickPic() {
   }
 }
 
-sendDickPic();
+sendDickPics();
 ```
 
 The hardest part was figuring out that the `Next-Action` and `Next-Router-State-Tree` headers were necessary to trigger the bit of server-side code responsible for interfacing with the thermal printer. If you were to omit them, you'd get a `200 OK` HTTP status code, but also a generic _Not Found_ page in the response body. That's why I decided to log it in my script.
 
-At any rate, I ran the script and after 5 seconds, there was a success message along with the expected JSON response from the API endpoint. About a minute or so later, the handler got disabled and it only took another minute for Wes to send [a follow-up tweet](https://x.com/wesbos/status/1825568577040093426). And sure enough, there were a handful of Dick pics being printed as he was recording!
+At any rate, I ran the script and after 5 seconds, there was a success message along with the expected JSON response from the API endpoint. 5 seconds later, another one. And yet another one, until about a minute or so later, the handler got disabled and it only took another minute for Wes to send [a follow-up tweet](https://x.com/wesbos/status/1825568577040093426). And sure enough, there were a handful of Dick pics being printed as he was recording!
 
-Think about the gravity of this situation for a second. I could've instructed the printer to print... anything. From cute dogs and cats to the most disgusting and obscene images you could think of, all thanks to a few lines of code.
+Think about the gravity of this situation for a second. I could've instructed the printer to print... anything. From cute dogs and cats to the most disgusting and obscene imagery one could think of, all thanks to a few lines of code.
 
-Some of you may say that I'm overexaggerating, and that Wes was certainly going to shut the site down after a few minutes regardless. However, it doesn't change the fact that I was able to gain this level of control over a _dumb_ device, simply because an online service for interacting with it got published with nothing in the way of preventing abuse.
+Some of you may say that I'm overexaggerating, and that Wes was certainly going to shut the site down after a few minutes regardless. However, it doesn't change the fact that I was able to gain this level of control over a _smart_ device, simply because an online service for interacting with it got published with nothing in the way of preventing abuse.
 
-The server never verified whether each request was coming from a legitimate or a malicious user, but also whether the image was appropriate or not. I'm also confident there was no rate-limiting either, which means I could theoretically get rid of the `setTimeout` call in my script to make it more annoying if I wanted to.
+The server never verified whether each request was coming from a legitimate or a malicious user, but also whether the image was appropriate or not. I'm also positive there was no rate-limiting either, which means I could theoretically get rid of the `setTimeout` call in my script to make it more annoying if I wanted to.
 
 Of course, I'm not implying that Wes wouldn't implement any of the aforementioned security measures if this was meant to be a production-ready app. I'm also not saying that my server is immune to every cyber attack in the book just by the virtue of not accepting user-submitted content and setting up a few firewall rules.
 
-But the moment you expose a means of communicating with your device, you can be certain that someone **can** and **will** at the very least attempt to abuse it. It doesn't matter if it's a random guy from Eastern Europe bored out of his mind or a state-sponsored hacker group looking to recruit more zombies into their botnet.
+But the moment you expose a means of communicating with your device, you can be certain that someone **will** _at the very least_ attempt to abuse it. It doesn't matter if it's a random guy from Eastern Europe bored out of his mind or a state-sponsored hacker group looking to recruit more zombies into their botnet.
 
-I reckon that the following fragment of a rap song by [Dual Core](https://dualcoremusic.bandcamp.com) titled ["All The Things"](https://dualcoremusic.bandcamp.com/track/all-the-things) sums up the story and its moral best:
+I reckon that the following fragment of a rap song by [Dual Core](https://dualcoremusic.bandcamp.com) titled [_All The Things_](https://dualcoremusic.bandcamp.com/track/all-the-things) sums up the story and its moral best:
 
 > Regardless of the hardware, service, or encoding  
 > Connect it to the internet  
