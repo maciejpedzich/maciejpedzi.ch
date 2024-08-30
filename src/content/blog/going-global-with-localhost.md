@@ -163,19 +163,19 @@ Of course, we can also use port forwarding for services using other transport pr
 
 Technically speaking, we've done everything to ensure the home server is reachable from external networks... but what if told you that, quite ironically, trying to access it from within the local network might not work?
 
-Imagine I have my daily driver with a local IP set to `10.0.20.5`, my server's local IP is `10.0.10.2`, and I want to visit `https://maciejpedzi.ch` on the former. DNS lookup for that domain name will return my router's public IP address, let's say `79.191.35.174`.
+Imagine I have my daily driver with a local IP set to `192.168.0.2`, my server's local IP is `192.168.0.3`, and I want to visit. There's a port forwarding rule on the router set to redirect all incoming TCP connections on port 443 to the same port on the server's address. DNS lookup for that domain name will return my router's public IP address, let's say `12.34.56.78`.
 
 My daily driver will send a packet to the router, because it's trying to reach out to an IP that's clearly outside the local network. But then the router will realise that the destination points to its own public IP address and that it's got a port forwarding rule specified for port 443. Therefore the router will change the destination address to the server's local IP address and send the packet there.
 
-However, the source address specified in that packet is still set to the daily driver's local IP. So when my server sends a response packet to the router, it will have `10.0.20.5` set as the destination. Once the router receives that response packet, it will realise that the recipient is in the same local network as the sender.
+However, the source address specified in that packet is still set to the daily driver's local IP. So when my server sends a response packet to the router, it will have `192.168.0.2` set as the destination. Once the router receives that response packet, it will realise that the recipient is in the same local network as the sender.
 
 Here comes the problem - the daily driver is expecting a response packet from the router's public IP, but then all of a sudden it gets a packet from the server's local IP. That packet will get dropped, since the daily driver is not expecting one from the latter, but the former.
 
-There are two approaches that can be taken to resolve this issue. One involves configuring the router to allow what's known as _NAT hairpining_. If enabled, the router will make sure to take all the packets sent to its local IP address and replace not only the target address with the home server's local IP, but also the sender's IP with the router's own local IP. In that scenario, once the router receives a response packet from the server, it will make sure to send it back to the sender, which will see a response coming from the router's public IP and thus accept the packet.
+There are two approaches that can be taken to resolve this issue. One involves configuring the router to allow what's known as _NAT hairpinning_. If enabled, the router will make sure to take all the packets sent to its local IP address and replace not only the target address with the home server's local IP, but also the sender's IP with the router's own local IP. In that scenario, once the router receives a response packet from the server, it will make sure to send it back to the sender, which will see a response coming from the router's public IP and thus accept the packet.
 
 The other solution involves a _split-horizon DNS_ (AKA _split DNS_, _split-view DNS_, _split-brain DNS_) setup, which requires a local DNS server with records for my apex domain and a wildcard subdomain that point to the server's local IP. That way my daily driver will be expecting a response from `10.0.10.2`, and once that packet reaches the router, it won't perform any sort of port forwarding, since the destination is set to an address within the local network. So once a response packet finds its way back to the daily driver, it will get accepted as it's anticipated to be delivered.
 
-Although both solutions are rather straightforward to set up on my MikroTik router, I've decided to adopt the _split DNS_ approach, because it allows my services to see the true local IPs from which I access various services, but also because I've generally seen it get recommended over _NAT hairpining_ on various forum threads (possibly for the reasons I've just stated myself).
+Although both solutions are rather straightforward to set up on my MikroTik router, I've decided to adopt the _split DNS_ approach, because it allows my services to see the true local IPs from which I access various services, but also because I've generally seen it get recommended over _NAT hairpining_ on various forum threads (most likely for the reasons I've just stated myself).
 
 ## Pros of self-hosting
 
@@ -267,11 +267,11 @@ My boredom was dead on the spot, because the curious yet mischievious George in 
 
 Anyway, past me concluded that the perfect choice for a photo to send would be a Dick pic, but not just any ordinary Dick. We're talking the 46th vice president of the USA, Dick Cheney. Why exactly him? I guess he was the first Dick to come to my mind at that moment.
 
-I had a really narrow time frame to work with, but that's when my vast experience in doing homework right before the deadline hits came in clutch to allow me to reverse-engineer the photo submission mechanism and produce the following script to send a Dick pic just as long as the server was up.
+I had a really narrow time frame to work with, but that's when my vast experience in doing homework right before the deadline came in clutch and allowed me to reverse-engineer the photo submission mechanism and produce the following script to send a Dick pic just as long as the server was up.
 
 ```js
-const { readFileSync } = require('fs');
-const { setTimeout } = require('timers/promises');
+import { readFileSync } from 'fs';
+import { setTimeout } from 'timers/promises';
 
 const dickPic = 'data:image/png;base64,'
   + Buffer.from(readFileSync('dick.png')).toString('base64');
@@ -320,7 +320,7 @@ Of course, I'm not implying that Wes wouldn't implement any of the aforementione
 
 But the moment you expose a means of communicating with your device, you can be certain that someone **will** _at the very least_ attempt to abuse it. It doesn't matter if it's a random guy from Eastern Europe bored out of his mind or a state-sponsored hacker group looking to recruit more zombies into their botnet.
 
-I reckon that the following fragment of a rap song by [Dual Core](https://dualcoremusic.bandcamp.com) titled [_All The Things_](https://dualcoremusic.bandcamp.com/track/all-the-things) sums up the story and its moral best:
+I reckon that the following fragment of a rap song by [Dual Core](https://dualcoremusic.bandcamp.com) titled [_All The Things_](https://dualcoremusic.bandcamp.com/track/all-the-things) perfectly sums up the story and its:
 
 > Regardless of the hardware, service, or encoding  
 > Connect it to the internet  
