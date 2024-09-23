@@ -26,6 +26,47 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </p>
     <PostList limit={5} />
   </section>
+  <section>
+    <h3>Featured projects</h3>
+    <ul>
+      <li>
+        <a
+          href="https://spotifyplaylistarchive.com"
+          target="_blank"
+          rel="noopener noreferrer">Spotify Playlist Archive</a
+        > - frontend for browsing the <a
+          href="https://github.com/mackorone/spotify-playlist-archive"
+          target="_blank"
+          rel="noopener noreferrer">spotify-playlist-archive</a
+        > GitHub repository, viewing specific snapshots of indexed playlists and
+        their statistics.
+      </li>
+      <li>
+        <a
+          href="https://github.com/maciejpedzich/playlist-entry-validator"
+          target="_blank"
+          rel="noopener noreferrer">Playlist Entry Validator</a
+        > - GitHub bot for validating new playlist entries added via pull requests
+        to the aforementioned archive repository.
+      </li>
+      <li>
+        <a
+          href="https://sixdegs.maciejpedzi.ch"
+          target="_blank"
+          rel="noopener noreferrer">Six Degrees of F1</a
+        > - website for visualising the shortest paths between two F1 drivers and
+        their teammates
+      </li>
+      <li>
+        <a
+          href="https://cats.maciejpedzi.ch"
+          target="_blank"
+          rel="noopener noreferrer">Cats Of Tech</a
+        > - online album of cats that belong to people in the software development
+        industry
+      </li>
+    </ul>
+  </section>
 </BaseLayout>
 
 <style>
