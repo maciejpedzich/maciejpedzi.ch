@@ -85,7 +85,7 @@ Local network is the key phrase here, because introducing those firewall rules a
 
 One thing you might have noticed on the diagram is a different IP addressing scheme for each VLAN. While you might be familiar with the 4 numbers separated by dots, the slash followed by another number might not seem familiar.
 
-This is what's known as the <abbr>CIDR</abbr> (ClaTLSes Inter-Domain Routing) notation. It's a shorthand way of writing an IP address range, where instead of using _first address-last address_, you denote the first IP address in a given range and then the number of 1 bits from the left to the right that represent the subnet mask. The 1-bits in that mask mark the bits that stay the same across all addresses in a specified range written in binary.
+This is what's known as the <abbr>CIDR</abbr> (Classless Inter-Domain Routing) notation. It's a shorthand way of writing an IP address range, where instead of using _first address-last address_, you denote the first IP address in a given range and then the number of 1 bits from the left to the right that represent the subnet mask. The 1-bits in that mask mark the bits that stay the same across all addresses in a specified range written in binary.
 
 Let's take my homelab VLAN's range for example: `10.0.10.1/24`. The first address in the range is `10.0.10.1`, and the first 24 bits in the address stay the same. Since each one of four numbers cannot be greater than 255, it means that each part fits perfectly in 8 bits.
 
