@@ -25,9 +25,11 @@ With that out of the way, let's dive into today's topic!
 
 ## Demo
 
-_I go to maciejpedzi.ch, click the the analytics link in the header, show stats and move on. I click the Gitea link on my website's footer. Show off some repos' pages, but catsof.tech and six-degs-of-f1 in particular. For each repo click on the website link, briefly explain and show off the app_.
+_I quit the slides and go to maciejpedzi.ch, click the the analytics link in the header, show stats and move on. I click the Gitea link on my website's footer. Show off some repos' pages, but catsof.tech and six-degs-of-f1 in particular. For each repo click on the website link, briefly explain and show off the app. Then I come back to the slides_.
 
 ## My network's diagram and its quick breakdown
+
+_I show this slide and exit them again. I switch over to the diagram tab_
 
 Now let me show you a simplified diagram of my local network and all the components from _the outside world_ that ensure my server can be reached from all over the globe. Don't worry if you fail to understand certain bits of the diagram or my rundown through it, as we will come back to each part and concept and break it down in subsequent slides.
 
