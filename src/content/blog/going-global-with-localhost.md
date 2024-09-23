@@ -2,7 +2,6 @@
 title: going global with localhost
 description: "This is how I've set up my local network and machine to safely expose my personal projects and other services to the outside world"
 pubDate: 2024-09-23T15:00:00.00Z
-draft: true
 categories:
   - project homelabtop
 tags:
