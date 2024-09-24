@@ -11,7 +11,9 @@ tags:
   - notes
 ---
 
-This post is a script for a talk I gave for James Quick's [Learn Build Teach Discord](https://discord.gg/vM2bagU) on 23 September 2024. If you'd like to watch that talk instead of reading its script, then [here's the VOD link](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
+This post is a script for a talk I was supposed to give for James Quick's [Learn Build Teach Discord](https://learnbuildteach.com) on 23 September 2024, but ironically, had to ultimately cancel due to numerous network issues that had to occur right before and during the presentation.
+
+Since I don't want my work to go to waste
 
 ## Introduction
 
@@ -21,15 +23,7 @@ Hello and welcome to my talk titled _Going global with localhost_, where you'll 
 
 But first, let me introduce myself. My name is Maciej Pędzich, but if you don't know how to pronounce my it, you can call me Mac. _Professionally_, I'm a 19-year-old computer science student at the Polish-Japanese Academy of Information Technology in Warsaw. _After hours_, I'm an aficionado of all things motorsport (particularly Formula 1 and WRC) as well as house music.
 
-With that out of the way, let's dive into today's topic!
-
-## Demo
-
-_I quit the slides and go to maciejpedzi.ch, click the the analytics link in the header, show stats and move on. I click the Gitea link on my website's footer. Show off some repos' pages, but catsof.tech and six-degs-of-f1 in particular. For each repo click on the website link, briefly explain and show off the app. Then I come back to the slides_.
-
 ## My network's diagram and its quick breakdown
-
-_I show this slide and exit them again. I switch over to the diagram tab_
 
 Now let me show you a simplified diagram of my local network and all the components from _the outside world_ that ensure my server can be reached from all over the globe. Don't worry if you fail to understand certain bits of the diagram or my rundown through it, as we will come back to each part and concept and break it down in subsequent slides.
 
@@ -87,11 +81,9 @@ Local network is the key phrase here, because introducing those firewall rules a
 
 One thing you might have noticed on the diagram is a different IP addressing scheme for each VLAN. While you might be familiar with the 4 numbers separated by dots, the slash followed by another number might not seem familiar.
 
-This is what's known as the <abbr>CIDR</abbr> (Classless Inter-Domain Routing) notation. It's a shorthand way of writing an IP address range, where instead of using _first address-last address_, you denote the first IP address in a given range and then the number of 1 bits from the left to the right that represent the subnet mask. The 1-bits in that mask mark the bits that stay the same across all addresses in a specified range written in binary.
+This is what's known as the <abbr>CIDR</abbr> (Classless Inter-Domain Routing) notation. It's a shorthand way of writing an IP address range, where instead of using _first address-last address_, you denote the first IP address in a given range and then the number of 1 bits from the left to the right that stay the same across all addresses in a specified range written in binary.
 
-Let's take my homelab VLAN's range for example: `10.0.10.1/24`. The first address in the range is `10.0.10.1`, and the first 24 bits in the address stay the same. Since each one of four numbers cannot be greater than 255, it means that each part fits perfectly in 8 bits.
-
-Therefore, we can deduct that 24 divided by 8, so exactly first 3 numbers in each address in decimal stay the same. Only the rightmost number changes with each address, so the last IP address in this range is `10.0.10.255`.
+Let's take my homelab VLAN's range for example: `10.0.10.1/24`. The first address in the range is `10.0.10.1`. IPv4 addresses are 32-bit integers, so each one of the 4 parts takes up 8 bits. In my example, the first 24 bits in the address, and thus the first 3 parts stay the same. Only the rightmost number changes with each address, so the last IP address in this range is `10.0.10.255`.
 
 ## Docker containers
 
@@ -109,9 +101,15 @@ If you don't get the reference, go and watch [Brian's talk](https://www.youtube.
 
 Ok, so we've decided on the deployment method, but it would be so awesome to have a PaaS-like experience offered by the likes of Netlify, Vercel, Render, etc. to build and ship those containers using a nice web interface.
 
-Enter Coolify. It's an open-source <abbr>PaaS</abbr> (Platform-as-a-Service), which aims to bring that sort of quality experience to self-hosted deployment. Apart from a sleek dashboard, Coolify allows you to configure a webhook for each project, which will trigger a redeployment upon a push to your project's repo.
+Enter Coolify. It's an open-source <abbr>PaaS</abbr> (Platform-as-a-Service), which aims to bring that sort of quality experience to self-hosted deployment. Apart from having a sleek dashboard, Coolify allows you to configure a webhook for each project, which will trigger a redeployment upon a push to your project's repo.
 
-_I show the deployments tab of my personal website and a GitHub webhook deliveries page. I show my website's Dockerfile, explain what's going on there, set this article's draft field to false, push a commit and switch back to the webhook deliveries page and analyse the payload. Then I go back to the Coolify dashboard and go over the deployment logs._.
+In case you don't know what a webhook, it's really nothing more than a regular HTTP request that gets sent to the user by a third-party app upon a certain event happening on their end. In my case, that event is a push to the main/production/release branch of a given project's Git repository hosted on GitHub.
+
+When Coolify receives that request and verifies its legitimacy, it will clone the repository to obtain its source code, run the build command specified in the Coolify project's settings (in my case building the Docker image of the app that's being deployed) and if the build succeeds, it will replace the old container with a new one based on the fresh Docker image.
+
+Some apps are more complex, in that they require multiple dedicated containers than just the one for the website. Some may require its own database or some other backend service that's required for the frontend to work properly. That's where Docker Compose comes into play.
+
+It allows you to define _software stacks_ in a dedicated Compose file, where you can specify all the services that make up for your entire application, but also create dedicated Docker networks (which we'll cover in the very next section) or connect some containers to existing ones, specify volumes for persistent data storage, and more.
 
 ## Docker networks
 
@@ -131,13 +129,11 @@ Alright, so we've got a bunch of containers up and running in their respective n
 
 But what if two services use the same port and you can't change it on container's end? Well, you could just use a different port on the host and call it a day, right? In my case... not exactly, because once it came down to actually exposing all these apps to the outside world, not only would I have to manually generate an TLS certificate for every project, but I'd also effectively force anyone wanting to visit a certain website I host to append the right port number to the domain name.
 
-So if I were to expose my personal website on port 3000, the URL you'd need to type in to access it would be `https://maciejpedzi.ch:3000`. If you want to omit the port number in the URL, you have to use port 443 instead. But you'd soon run into the same issue of multiple apps trying to use the same host port at once - that's impossible.
+So if I were to expose my personal website on port 3000, the URL you'd need to type in to access it would be `https://maciejpedzi.ch:3000`. But since I want to omit the port number in the URL, I have to use port 443 instead. But I'd soon run into the same issue of multiple apps trying to use the same host port at once - that's impossible.
 
-The solution to that problem requires having a server that forwards incoming requests to appropriate apps based on something like the domain name. My personal website should be reachable via `maciejpedzi.ch`, my Gitea instance via `git.maciejpedzi.ch`, my Umami analytics platform via `analytics.maciejpedzi.ch`, and so on. It would also be nice if that server generated all the necessary TLS certificates as more services go live.
+The solution to that problem requires having a server that forwards incoming requests to appropriate apps based on something like the domain name. My personal website should be reachable via `maciejpedzi.ch`, my Gitea instance via `git.maciejpedzi.ch`, my Umami analytics platform via `analytics.maciejpedzi.ch`, and so on. It would also be nice if that server automatically generated all the necessary TLS certificates as more services go live.
 
 You've probably seen it coming by now, but that's pretty much how a reverse proxy works in a nutshell. There are plenty of web servers that can be configured to act like one, such as Nginx, Traefik, or Caddy. It's the latter that I've ended up using for my apps, mainly due to the ease and flexibility of configuration but also a wide range of modules for extending Caddy's feature set.
-
-_Go over the Caddyfile, explain the global ACME DNS option. Show the log snippet, no public IPs except GH webhooks and a bunch of proxy rules_.
 
 ## Dynamic DNS
 
@@ -161,23 +157,29 @@ Enter port forwarding. It's a means of telling the router to, as the name sugges
 
 Of course, we can also use port forwarding for services using other transport protocols like UDP. This is the case for my WireGuard VPN running directly on the router itself, in which case I need to set the router's local IP as the destination.
 
-## Split-horizon DNS
+## Accessing a public server via LAN
+
+### Problem
 
 Technically speaking, we've done everything to ensure the home server is reachable from external networks... but what if told you that, quite ironically, trying to access it from within the local network might not work?
 
-Imagine I have my daily driver with a local IP set to `192.168.0.2`, my server's local IP is `192.168.0.3`, and I want to visit. There's a port forwarding rule on the router set to redirect all incoming TCP connections on port 443 to the same port on the server's address. DNS lookup for that domain name will return my router's public IP address, let's say `12.34.56.78`.
+Imagine I have a local client with its IP set to `192.168.0.2`, a server with local IP of `192.168.0.3`. There's a port forwarding rule on the router set to redirect all incoming TCP connections on port 443 to the same port on the server. I've set up a global DNS record for my `example.com` domain name to point to my router's public IP address, let's say `12.34.56.78`.
 
-My daily driver will send a packet to the router, because it's trying to reach out to an IP that's clearly outside the local network. But then the router will realise that the destination points to its own public IP address and that it's got a port forwarding rule specified for port 443. Therefore the router will change the destination address to the server's local IP address and send the packet there.
+When I try to visit `https://example.com` from my local client, it will try and establish and outgoing connection, because it's trying to reach out to an IP that's clearly outside the local network. But after the client tells the router it wants to make that outgoing connection to `12.34.56.78:443`, the router will realise that the destination points to its own public IP address and that it's got a port forwarding rule specified for port 443. Therefore the router will change the destination address to the server's local IP address and send the packet there.
 
-However, the source address specified in that packet is still set to the daily driver's local IP. So when my server sends a response packet to the router, it will have `192.168.0.2` set as the destination. Once the router receives that response packet, it will realise that the recipient is in the same local network as the sender.
+However, the source address specified in that packet is still set to the client's local IP. So once my server sends a response packet to the router, it will have `192.168.0.2` set as the destination. When the router receives that response packet, it will realise that the recipient is in the same local network as the sender.
 
-Here comes the problem - the daily driver is expecting a response packet from the router's public IP, but then all of a sudden it gets a packet from the server's local IP. That packet will get dropped, since the daily driver is not expecting one from the latter, but the former.
+Here comes the problem - the client is expecting a response packet from the router's public IP, but then all of a sudden it gets a packet from the server's local IP. That packet will get dropped, since the daily driver is not expecting one from the latter, but the former.
+
+### Solution 1: NAT hairpinning
 
 There are two approaches that can be taken to resolve this issue. One involves configuring the router to allow what's known as _NAT hairpinning_. If enabled, the router will make sure to take all the packets sent to its local IP address and replace not only the target address with the home server's local IP, but also the sender's IP with the router's own local IP. In that scenario, once the router receives a response packet from the server, it will make sure to send it back to the sender, which will see a response coming from the router's public IP and thus accept the packet.
 
+### Solution 2: split-horizon DNS
+
 The other solution involves a _split-horizon DNS_ (AKA _split DNS_, _split-view DNS_, _split-brain DNS_) setup, which requires a local DNS server with records for my apex domain and a wildcard subdomain that point to the server's local IP. That way my daily driver will be expecting a response from `10.0.10.2`, and once that packet reaches the router, it won't perform any sort of port forwarding, since the destination is set to an address within the local network. So once a response packet finds its way back to the daily driver, it will get accepted as it's anticipated to be delivered.
 
-Although both solutions are rather straightforward to set up on my MikroTik router, I've decided to adopt the _split DNS_ approach, because it allows my services to see the true local IPs from which I access various services, but also because I've generally seen it get recommended over _NAT hairpining_ on various forum threads (most likely for the reasons I've just stated myself).
+Although both solutions are rather straightforward to set up on my MikroTik router, I've decided to adopt the _split DNS_ approach, because it allows my services to see the true local IPs from which I access various services.
 
 ## Pros of self-hosting
 
@@ -255,8 +257,8 @@ You also have to be wary of hosting services that allow users to submit text, im
 
 ## Wrap-up and acknowledgements
 
-Thank you for reading this script all the way to the end! I highly recommend you check out the talk video I've linked to above, since it features more graphs, slides, my voice, my face, all that good stuff.
+Thank you for reading this script all the way to the end!
 
-I'd also like to give a massive shout-out to [Brian Morrison](https://brianmorrison.me) for inspiring me to set up a homelab in the first place, but also his [fullstack.chat](https://fullstack.chat) Discord community for  providing a space for me to document my setup shenanigans live, but more importantly, showing support and encouragement to keep pushing forward despite various setbacks I've had to face with what I consider probably my most important project to date.
+I'd like to give a massive shout-out to [Brian Morrison](https://brianmorrison.me) for inspiring me to set up a homelab in the first place, but also his [fullstack.chat](https://fullstack.chat) Discord community for  providing a space for me to document my setup shenanigans live, but more importantly, showing support and encouragement to keep pushing forward despite various setbacks I've had to face with what I consider probably my most important project to date.
 
 Take care!
