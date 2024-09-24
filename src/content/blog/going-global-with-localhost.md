@@ -11,9 +11,11 @@ tags:
   - notes
 ---
 
-This post is a script for a talk I was supposed to give for James Quick's [Learn Build Teach Discord](https://learnbuildteach.com) on 23 September 2024, but ironically, had to ultimately cancel due to numerous network issues that had to occur right before and during the presentation.
+This post is a script for a talk I was supposed to give for James Quick's [Learn Build Teach Discord](https://learnbuildteach.com) on 23 September 2024, but ironically, had to ultimately cancel due to numerous network issues that just had to occur right before and during the presentation.
 
-Since I don't want my work to go to waste
+I was supposed to demonstrate publishing this talk's script live, but you'll have to make do without it (for now). Also, I've published [the slides as a PDF file](/going-global-with-localhost-slides.pdf), because I don't want them to go to waste either.
+
+At any rate, enjoy the lecture!
 
 ## Introduction
 
@@ -125,7 +127,7 @@ My approach to organising Docker networks is to have each container for the web 
 
 ## Reverse proxy
 
-Alright, so we've got a bunch of containers up and running in their respective networks. You might think that the next order of business is binding some arbitrary host ports to ports used by the containerised web apps. It would be convenient to use the same ports for both host and container.
+We've got a bunch of containers up and running in their respective networks. You might think that the next order of business is binding some arbitrary host ports to ports used by the containerised web apps. It would be convenient to use the same ports for both host and container.
 
 But what if two services use the same port and you can't change it on container's end? Well, you could just use a different port on the host and call it a day, right? In my case... not exactly, because once it came down to actually exposing all these apps to the outside world, not only would I have to manually generate an TLS certificate for every project, but I'd also effectively force anyone wanting to visit a certain website I host to append the right port number to the domain name.
 
