@@ -2,7 +2,6 @@
 title: cheesing a subnetting test with rust
 description: "Find out how I've used Rust to make an already easy subnetting test even easier"
 pubDate: 2024-12-26T09:47:47.456Z
-draft: true
 categories:
   - dev diary
 tags:
@@ -27,7 +26,7 @@ We're given a CIDR notation of the main subnet and a comma-separated list of sub
 
 Consider the following example:
 
-- **Main subnet CIDR**: `192.168.1.55/24`
+- **Main subnet CIDR**: `192.168.1.5/24`
 - **Subnets**: `(A,21), (B,37), (C,69), (D,30)`
 - **Tiebreak order**: alphabetical
 
@@ -101,28 +100,187 @@ From there we can create an `Ipv4Addr` instance from a `u32` integer that has ex
 Finally, we can leverage the fact that the `Ipv4Addr` struct implements `BitOr` and `BitAnd` traits, which enables us to perform respective bitwise operations directly on two `Ipv4Addr` instances and thus obtain the main subnet's base and broadcast IPs.
 
 ```rs
-let input_subnet_mask = Ipv4Addr::from(
-    ((1 << input_num_subnet_bits) - 1)
-    << input_num_host_bits,
-);
-let input_broadcast_mask = Ipv4Addr::from(
-    (1 << input_num_host_bits) - 1
-);
-let input_subnet_base_ip =
-    input_ip & input_subnet_mask;
-let input_subnet_broadcast_ip =
-    input_subnet_base_ip | input_broadcast_mask;
+fn main() {
+    // ...
+    let input_subnet_mask = Ipv4Addr::from(
+        ((1 << input_num_subnet_bits) - 1)
+        << input_num_host_bits,
+    );
+    let input_broadcast_mask = Ipv4Addr::from(
+        (1 << input_num_host_bits) - 1
+    );
+    let input_subnet_base_ip =
+        input_ip & input_subnet_mask;
+    let input_subnet_broadcast_ip =
+        input_subnet_base_ip | input_broadcast_mask;
 
-println!(
-    "Input subnet's base IP: {}",
-    input_subnet_base_ip
-);
-println!(
-    "Input subnet's broadcast IP: {}",
-    input_subnet_broadcast_ip
-);
+    println!(
+        "Input subnet's base IP: {}",
+        input_subnet_base_ip
+    );
+    println!(
+        "Input subnet's broadcast IP: {}",
+        input_subnet_broadcast_ip
+    );
+}
 ```
+
+In case you're not aware, a cool trick to generate a number equal to $2^n$ is to perform a left shift on 1 by $n$ positions. In order to get a number that has $n$ least significant bits set to 1, you simply subtract 1 from the result of that left shift operation.
 
 ### Implementing a comparable subnet struct
 
 Before we get to extracting and sorting subnets from the second argument, we'll need to create a struct that will store said data for each subnet and enable us to easily compare different subnets by the aforementioned criteria.
+
+For the former, it would be nice to use the formula I've described earlier to calculate the size based on the minimal number of hosts, or even IPs to fit in that subnet when creating a new struct instance.
+
+For the latter, there's a built-in [`Ord` trait](https://doc.rust-lang.org/std/cmp/trait.Ord.html) we can implement for our struct to make our subnets comparable. However, the `Ord` trait itself is not enough, since it requires us to implement the [`Eq`](https://doc.rust-lang.org/std/cmp/trait.Eq.html) and [`PartialOrd`](https://doc.rust-lang.org/std/cmp/trait.PartialOrd.html) traits, both of which also require the [`PartialEq` trait](https://doc.rust-lang.org/std/cmp/trait.PartialEq.html) to be implemented.
+
+Finally, since we're going to print out each subnet, we should probably implement the [`Display` trait](https://doc.rust-lang.org/std/fmt/trait.Display.html) too. Even though this struct will only have 2 fields and get printed once per iteration, one more trait implementation never hurts, I guess.
+
+With all that out of the way, here's the actual `Subnet` struct code:
+
+```rs
+use std::cmp::Ordering;
+use std::fmt::{Display, Formatter};
+
+// Below the main function...
+
+struct Subnet {
+    name: String,
+    size: u32,
+}
+
+impl Subnet {
+    fn new(name: &str, min_num_ips: u32) -> Self {
+        let num_host_bits = Ipv4Addr::BITS
+            - (min_num_ips - 1).leading_zeros();
+
+        Subnet {
+            name: name.to_string(),
+            size: 1 << num_host_bits
+        }
+    }
+}
+
+impl PartialEq for Subnet {
+    fn eq(&self, other: &Self) -> bool {
+        self.name == other.name
+        && self.size == other.size
+    }
+}
+
+impl Eq for Subnet {}
+
+impl Ord for Subnet {
+    fn cmp(&self, other: &Self) -> Ordering {
+        other.size.cmp(&self.size).then_with(|| {
+            let name_order = args().nth(3).unwrap();
+
+            if name_order == "A-Z" {
+                self.name.cmp(&other.name)
+            } else {
+                other.name.cmp(&self.name)
+            }
+        })
+    }
+}
+
+impl PartialOrd<Self> for Subnet {
+    fn partial_cmp(&self, other: &Self)
+    -> Option<Ordering> 
+    {
+        Some(self.cmp(other))
+    }
+}
+
+impl Display for Subnet {
+    fn fmt(&self, f: &mut Formatter)
+    -> std::fmt::Result
+    {
+        write!(
+            f,
+            "{}) Size: {}",
+            self.name, self.size
+        )
+    }
+}
+```
+
+Notice the way I compute `num_host_bits` in the `new` method. I remembered how Java docs mentioned that you could use [`numberOfLeadingZeros`](https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Integer.html#numberOfLeadingZeros(int)) method to calculate $\lceil log_2{n} \rceil$ and decided to adopt this approach here. It's quite clever and not prone to floating point math errors that I could potentially face if I decided to convert `min_num_ips` to `f32` and use its `log2` method instead.
+
+### Extracting subnets from the second argument
+
+Now that we have a structure for storing data of each subnet, it's time to extract them all from the second parameter. This is where the aforementioned `regex` crate comes into play. We can use a simple pattern that matches a word character and at least one digit, both of which can be put into their own capture groups to make it easy to extract the subnet's name and minimal number of hosts.
+
+We can then apply that pattern to the list of subnets, loop through all the matches to create their respective subnet instances and leverage `BTreeSet` to ensure they'll be placed in order dictated by our `Ord` implementation.
+
+```rs
+use regex::Regex;
+use std::collections::BTreeSet;
+
+fn main() {
+    // ...
+
+    let subnet_pattern = Regex::new(r"\((\w),(\d+)\)")
+        .unwrap();
+    let ordered_subnets = subnet_pattern
+        .captures_iter(&arguments[2])
+        .map(|capture| {
+            let [name, min_num_hosts] =
+                capture.extract::<2>().1;
+            let min_num_ips = min_num_hosts
+                .parse::<u32>().unwrap() + 2;
+
+            Subnet::new(name, min_num_ips)
+        })
+        .collect::<BTreeSet<Subnet>>();
+}
+```
+
+### Getting each subnet's base IP, subnet mask, and broadcast IP
+
+We need to start with the main subnet's base IP, get the current subnet's number of host and subnet bits to form the mask, increase the base IP by the size of our current subnet and the broadcast address will be the IP directly before the base IP of the next subnet.
+
+```rs
+fn main() {
+    // ...
+
+    for subnet in ordered_subnets {
+        print!("{}, ", subnet);
+        print!(
+            "Base IP: {}, ",
+            current_subnet_base_ip
+        );
+
+        let num_subnet_bits =
+            (subnet.size - 1).leading_zeros();
+        let num_host_bits =
+            Ipv4Addr::BITS - num_subnet_bits;
+        let subnet_mask =
+            Ipv4Addr::from(
+                ((1 << num_subnet_bits) - 1)
+                << num_host_bits,
+            );
+
+        print!(
+            "Subnet mask: {}/{}, ",
+            subnet_mask, num_subnet_bits
+        );
+
+        current_subnet_base_ip =
+            Ipv4Addr::from(
+                current_subnet_base_ip.to_bits()
+                + subnet.size,
+            );
+
+        println!(
+            "Broadcast IP: {}",
+            Ipv4Addr::from(
+                current_subnet_base_ip.to_bits() - 1
+            )
+        );
+    }
+}
+```
+
+Although we can't add or subtract an `Ipv4Addr` struct with a `u32`, we can use the former's `to_bits` methods to convert it to `u32` and then do the addition or subtraction.
