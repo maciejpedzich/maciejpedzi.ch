@@ -245,6 +245,9 @@ We need to start with the main subnet's base IP, get the current subnet's number
 fn main() {
     // ...
 
+    let mut current_subnet_base_ip =
+        input_subnet_base_ip;
+
     for subnet in ordered_subnets {
         print!("{}, ", subnet);
         print!(
@@ -283,4 +286,30 @@ fn main() {
 }
 ```
 
-Although we can't add or subtract an `Ipv4Addr` struct with a `u32`, we can use the former's `to_bits` methods to convert it to `u32` and then do the addition or subtraction.
+Although we can't add or subtract an `Ipv4Addr` struct with a `u32`, we can use the former's `to_bits` methods to convert it to `u32`, do the addition or subtraction, and convert it back to an `Ipv4Addr` instance.
+
+### Counting IP addresses used by all subnets
+
+As a bonus, we can also check how many addresses are used by all these subnets and if there are enough in the base pool. After the final iteration of the for loop, `current_subnet_base_ip` will be set to the first IP address directly after the last subnet's broadcast IP. Therefore we can convert `current_subnet_base_ip` and `input_subnet_base_ip` to `u32` and calculate their difference.
+
+As for the number of IPs in our base pool, since we know the `input_num_host_bits`, we just need to raise 2 to the power of its value to get the main IP address pool's size.
+
+```rs
+let num_input_subnet_ips = 1 << input_num_host_bits;
+let total_num_subnet_ips =
+    current_subnet_base_ip.to_bits()
+    - input_subnet_base_ip.to_bits();
+
+println!(
+    "Number of available IPs: {}",
+    num_input_subnet_ips
+);
+println!(
+    "Number of IPs used by all subnets: {}",
+    total_num_subnet_ips
+);
+
+if total_num_subnet_ips > num_input_subnet_ips {
+    println!("Not enough available IPs!");
+}
+```
