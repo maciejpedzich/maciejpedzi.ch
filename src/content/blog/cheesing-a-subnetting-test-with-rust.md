@@ -1,7 +1,7 @@
 ---
 title: cheesing a subnetting test with rust
 description: "Find out how I've used Rust to make an already easy subnetting test even easier"
-pubDate: 2024-12-26T09:47:47.456Z
+pubDate: 2024-12-27T09:47:47.456Z
 categories:
   - dev diary
 tags:
