@@ -15,11 +15,11 @@ It's been a hot minute since my last post, and because it's Christmas break, I t
 
 I'd agree if I used somebody else's script without understanding how the general algorithm works, let alone having sufficient knowledge of all the aforementioned concepts. I wouldn't have been able to automate the whole process without these.
 
-Besides - if I'm supposed to get a higher education as a programmer, I reckon I should be encouraged to solve problems by writing code to automate away all the tedious parts of the tasks I'm given.
+Besides, if I'm supposed to get a higher education as a programmer, I reckon I should be encouraged to solve problems by writing code to automate away all the tedious parts of the tasks I'm given.
 
 ## Prerequisites
 
-This post assumes you're familiar with the concept of IPv4 addressing scheme and CIDR notation. While at least basic knowledge of Rust will definitely make it easier for you to understand my code, you should still be able to make out what it does if you have general experience with other language(s) like C++, Java, or Python.
+This post assumes you're familiar with the concept of IPv4 addressing scheme and CIDR notation from the networking side of things, as well as some of the more intermediate Rust topics like [iterators](https://doc.rust-lang.org/book/ch13-02-iterators.html), [`BTreeSet`](https://doc.rust-lang.org/std/collections/struct.BTreeSet.html), and [traits](https://doc.rust-lang.org/book/ch10-02-traits.html).
 
 ## Example task description and solution
 
@@ -31,7 +31,7 @@ Consider the following example:
 - **Subnets**: `(A,21), (B,37), (C,69), (D,30)`
 - **Tiebreak order**: alphabetical
 
-For starters we need to obtain the base and broadcast IP address of our main subnet. In this case it's `192.168.1.0` and `192.168.1.255` respectively. Then we need to calculate the sizes of listed subnets.
+For starters we need to obtain the base and broadcast IP address of our main subnet. In this case it's quite straighforward, since 24 is 8 multiplied by 3, meaning the first three octets stay the same, so the answer is `192.168.1.0` and `192.168.1.255` respectively. Then we need to calculate the sizes of listed subnets.
 
 For each subnet, we take its number of hosts, increment it by 2 (because we have to account for the base IP and the broadcast IP) to obtain the minimal number of IP addresses we have to fit in there, and find the lowest power of 2 which is greater than or equal to that number.
 
@@ -50,4 +50,79 @@ So we start with subnet C and take the main subnet's base IP, which is `192.168.
 
 Then we move on to subnet B using the first address that comes after the previous subnet's broadcast IP, which in this case is `192.168.1.128`, and perform similar calculations until we've gone through all the subnets.
 
-Although the algorithm above surely seems tedious to follow by hand, I believe it's easy to implement in code, and that's exactly what I've done to write my program.
+Although the algorithm above surely seems tedious to follow by hand, I believe it's easy to implement in code, and that's exactly what I've done to write my program. Speaking of which, it's time to analyse it.
+
+## Breaking it down
+
+_Insert a breakdancing GIF here._
+
+### Crates
+
+For this project, I only used the [`regex` crate](https://crates.io/crates/regex/1.11.1) to extract the subnet names and minimal number of hosts from the task description. We'll get to that in a later section.
+
+### Program arguments
+
+My application expects exactly 3 arguments:
+
+1. Main subnet's CIDR
+2. Comma-separated list of subnets with their names and minimum number of hosts
+3. `A-Z` to order subnets with the same sizes alphabetically or `Z-A` to use reverse alphabetical order
+
+### Obtaining main subnet's base and broadcast IP addresses
+
+In order to obtain the base IP of the main subnet, we need to find its subnet mask and then perform a bitwise AND operation between the input IP and said subnet mask.
+
+As for the broadcast IP, we need a bitwise OR oepration between the main subnet's base IP and the _reverse subnet mask_, ie. a number that has all the least significant bits reserved for the host set to 1 in its binary notation, with all the more significant bits set to 0.
+
+Let's start by extracting the input IP and the number of bits reserved for the subnet.
+
+```rs
+use std::env::args;
+use std::net::Ipv4Addr;
+use std::str::FromStr;
+
+fn main() {
+    let arguments = args().collect::<Vec<String>>();
+    let input_cidr = arguments[1]
+        .split_once("/")
+        .unwrap();
+    let input_ip = Ipv4Addr::from_str(input_cidr.0)
+        .unwrap();
+    let input_num_subnet_bits = input_cidr.1
+        .parse::<u32>()
+        .unwrap();
+    let input_num_host_bits =
+        Ipv4Addr::BITS - input_num_subnet_bits;
+}
+```
+
+From there we can create an `Ipv4Addr` instance from a `u32` integer that has exactly `input_num_subnet_bits` most significant bits set to 1, with the remaining `input_num_host_bits` bits set to 0, and that will be our main subnet mask.
+
+Finally, we can leverage the fact that the `Ipv4Addr` struct implements `BitOr` and `BitAnd` traits, which enables us to perform respective bitwise operations directly on two `Ipv4Addr` instances and thus obtain the main subnet's base and broadcast IPs.
+
+```rs
+let input_subnet_mask = Ipv4Addr::from(
+    ((1 << input_num_subnet_bits) - 1)
+    << input_num_host_bits,
+);
+let input_broadcast_mask = Ipv4Addr::from(
+    (1 << input_num_host_bits) - 1
+);
+let input_subnet_base_ip =
+    input_ip & input_subnet_mask;
+let input_subnet_broadcast_ip =
+    input_subnet_base_ip | input_broadcast_mask;
+
+println!(
+    "Input subnet's base IP: {}",
+    input_subnet_base_ip
+);
+println!(
+    "Input subnet's broadcast IP: {}",
+    input_subnet_broadcast_ip
+);
+```
+
+### Implementing a comparable subnet struct
+
+Before we get to extracting and sorting subnets from the second argument, we'll need to create a struct that will store said data for each subnet and enable us to easily compare different subnets by the aforementioned criteria.
