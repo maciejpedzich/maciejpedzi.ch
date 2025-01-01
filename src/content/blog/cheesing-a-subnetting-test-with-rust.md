@@ -8,7 +8,7 @@ tags:
   - rust
 ---
 
-It's been a hot minute since my last post, and because it's Christmas break, I thought I'd break down this simple Rust program I've used to completely cheese this subnetting test I've had to take for the computer networking course at my uni. You can check out the source code on [GitHub](https://github.com/maciejpedzich) or on [my Gitea instance](https://git.maciejpedzi.ch) if the former is down.
+It's been a hot minute since my last post, and because it's Christmas break, I thought I'd break down this simple Rust program I've used to completely cheese this subnetting test I've had to take for the computer networking course at my uni. You can check out the source code on [GitHub](https://github.com/maciejpedzich/subnet-solver) or on [my Gitea instance](https://git.maciejpedzi.ch/maciejpedzich/subnet-solver) if the former is down.
 
 ## Isn't that cheating?
 
